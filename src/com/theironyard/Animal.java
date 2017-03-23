@@ -1,5 +1,7 @@
 package com.theironyard;
 
+import java.util.ArrayList;
+
 /**
  * Created by JamesHartanto on 3/20/17.
  */
@@ -8,6 +10,8 @@ public class Animal {
     public String species;
     public String breed;
     public String description;
+
+    ArrayList<Animal> listOfAnimals = new ArrayList<>();
 
 //    // Getters and Setters for each property
 //    public String getName() {

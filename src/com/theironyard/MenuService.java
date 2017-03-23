@@ -19,7 +19,7 @@ public class MenuService {
     public static final int VIEW_ANIMAL_DETAILS = 3;
     public static final int EDIT_ANIMAL = 4;
     public static final int DELETE_ANIMAL = 5;
-    public static final int QUIT = 2;
+    public static final int QUIT = 6;
 
     // Main Menu of Animal Shelter Program
     public int promptForMainMenuSelection(){
@@ -65,12 +65,12 @@ public class MenuService {
     }
 
     // Creating an animal
-    private Animal promptForNewAnimal(String name, String species, String breed, String description){
+    public Animal promptForNewAnimal(String name, String species, String breed, String description){
         Animal animal = promptForAnimalData(name,species,breed,description);
         return animal;
     }
 
-    private Animal promptForEditAnimal(String name, String species, String breed, String description){
+    public Animal promptForEditAnimal(String name, String species, String breed, String description){
         Animal animal = promptForAnimalData(name,species,breed,description);
         return animal;
     }
