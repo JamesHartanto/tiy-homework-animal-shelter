@@ -9,7 +9,11 @@ import java.util.Scanner;
  * Created by JamesHartanto on 3/20/17.
  */
 public class Main {
+
     public static void main(String[] args) {
+        // Arraylist to hold the animals
+        ArrayList<Animal> listOfAnimals = new ArrayList<>();
+
         // Creating instances to use classes
         Scanner scanner = new Scanner(System.in);
         MenuService menuService = new MenuService(scanner);
@@ -19,13 +23,14 @@ public class Main {
             int action = menuService.promptForMainMenuSelection();
 
             if(action == MenuService.LIST_ANIMALS){
-                for (int x = 0; x < animal.listOfAnimals.size(); x = x + 1) {
-                    String format1 = "%-5s%s%n";
-                    //String format1 = "%2d. %-20s $%.2f%n";
+                for (int x = 0; x < listOfAnimals.size(); x = x + 1) {
+                    // Not sure how to use formats yet
+                    // String format1 = "%-5s%s%n";
+                    // String format1 = "%2d. %-20s $%.2f%n";
                     System.out.printf("%s)   %s   %s\n",
-                            x+1,
-                            animal.listOfAnimals.get(x).getName(),
-                            animal.listOfAnimals.get(x).getSpecies());
+                            (x+1),
+                            listOfAnimals.get(x).getName(),
+                            listOfAnimals.get(x).getSpecies());
                 }
 
 
@@ -53,7 +58,7 @@ public class Main {
                 Animal newAnimal = menuService.promptForNewAnimal(animal.getName(),
                         animal.getSpecies(),animal.getBreed(),animal.getDescription());
                 // Adding animal to the list
-                animal.listOfAnimals.add(0,newAnimal);
+                listOfAnimals.add(0,newAnimal);
                 System.out.println("Animal has been created!");
 
 
@@ -61,45 +66,77 @@ public class Main {
             } else if(action == MenuService.VIEW_ANIMAL_DETAILS){
                 // Asks user for which animal to see
                 System.out.println("What is the numeric ID of the animal you want to view?");
-                int animalToKnowAbout = menuService.viewAnimalInt();
-                animal.listOfAnimals.get(animalToKnowAbout+1);
+                int x = 0;
+                // check if the next input is an int.
+                String choice = scanner.nextLine();
+                // while loop to check input is valid
+                while (MenuService.isInteger(choice) == false || Integer.parseInt(choice) > listOfAnimals.size() ||
+                        Integer.parseInt(choice) < 1) {
+                    System.out.println(MenuService.ANSI_GREEN_BACKGROUND + MenuService.ANSI_RED +
+                            "Sorry, that is not a valid option. Please try again.\n" + MenuService.ANSI_RESET);
+                    choice = scanner.nextLine();
+                }
+                // return the int the user provided
+                x = Integer.parseInt(choice)-1;
+                System.out.println(listOfAnimals.get(x));
 
 
-                // Editing animal
+                // Editing animal ********
             } else if(action == MenuService.EDIT_ANIMAL){
-                //When editing an animal, don't make users retype everything.
-                // See the suggestions below regarding editing an animal.
-                // Hint: You could create a method on MenuService that accepts an Animal as an argument and,
-                // for each field, if the user doesn't provide a new value, it reuses the current value.
                 System.out.println("What is the numeric ID of the animal you want to edit?");
-                int animalToKnowAbout = menuService.viewAnimalInt();
-
-                animal.listOfAnimals.get(animalToKnowAbout);
-
-
+                int x = 0;
+                // check if the next input is an int.
+                String choice = scanner.nextLine();
+                // while loop to check input is valid
+                while (MenuService.isInteger(choice) == false || Integer.parseInt(choice) > listOfAnimals.size() ||
+                        Integer.parseInt(choice) < 1) {
+                    System.out.println(MenuService.ANSI_GREEN_BACKGROUND + MenuService.ANSI_RED +
+                            "Sorry, that is not a valid option. Please try again.\n" + MenuService.ANSI_RESET);
+                    choice = scanner.nextLine();
+                }
+                // return the int the user provided
+                x = Integer.parseInt(choice)-1;
+                System.out.println("Please answer the following questions. Press enter to keep the current values.");
+                // The values
+                // listOfAnimals.get(x).getName();
+                // listOfAnimals.get(x).getSpecies();
+                // listOfAnimals.get(x).getBreed();
+                // listOfAnimals.get(x).getDescription();
 
 
                 // Delete an animal in the shelter
             } else if (action == MenuService.DELETE_ANIMAL){
                 System.out.println("What is the numeric ID of the animal you want to delete?");
-                int animalToKnowAbout = menuService.viewAnimalInt();
-                System.out.println("Are you sure you want to delete:\n");
-                animal.listOfAnimals.get(animalToKnowAbout+1);
+                int x = 0;
+                // check if the next input is an int.
+                String choice = scanner.nextLine();
+                // while loop to check input is valid
+                while (MenuService.isInteger(choice) == false || Integer.parseInt(choice) > listOfAnimals.size() ||
+                        Integer.parseInt(choice) < 1) {
+                    System.out.println(MenuService.ANSI_GREEN_BACKGROUND + MenuService.ANSI_RED +
+                            "Sorry, that is not a valid option. Please try again.\n" + MenuService.ANSI_RESET);
+                    choice = scanner.nextLine();
+                }
+                // return the int the user provided
+                x = Integer.parseInt(choice)-1;
+                System.out.println("Are you sure you want to delete " + listOfAnimals.get(x) + "(Y/N)?");
                 if (menuService.deleteQuitAnimal() == true){
-                    animal.listOfAnimals.remove(animalToKnowAbout+1);
-                } else
-                    {
-                    // nothing happens, continue the while loop
+                    listOfAnimals.remove(x);
+                    System.out.println("An animal has been deleted!");
+                } else {
+                    // nothing happens, continue the while loop;
+                    System.out.println("The animal is not extinct YET!");
                 }
 
 
                 // Quit the animal shelter program
             } else if (action == MenuService.QUIT){
-                System.out.println("Are you sure you want to quit? All of your data will be lost!");
+                System.out.println("Leaving so soon? All of your data will be lost!");
                 if (menuService.deleteQuitAnimal() == true){
                     break;
                 } else {
                     // nothing happens, continue the while loop;
+                    System.out.println("Welcome back!");
                 }
             }
         }

@@ -13,7 +13,6 @@ public class Animal {
     private String description;
 
     Scanner scanner = new Scanner(System.in);
-    ArrayList<Animal> listOfAnimals = new ArrayList<>();
 
 // MIGHT WANT TO SORT ALPHABETICALLY WHEN THERE ARE ACTUAL ANIMALS
 //             ArrayList<Animal> listOfAnimals = animal.listOfAnimals.sort();
@@ -109,5 +108,15 @@ public class Animal {
         } else {
             System.out.println("The description for the animal is required! Please try again.");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Animal{" +
+                "name:'" + name + '\'' +
+                ", species:'" + species + '\'' +
+                ", breed:'" + breed + '\'' +
+                ", description:'" + description + '\'' +
+                '}';
     }
 }

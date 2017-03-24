@@ -93,35 +93,12 @@ public class MenuService {
         } return x;
     }
 
-    // For choosing animal from list of animals
-    public int viewAnimalInt(){
-        Animal animal = new Animal();
-        int x = 0;
-        // check if the next input is an int.
-        String choice = scanner.nextLine();
-        if (isInteger(choice) == true){
-            if(Integer.parseInt(choice) > animal.listOfAnimals.size() || Integer.parseInt(choice) < 1){
-                // if the next input is not an int, read it as a string to show in an error message
-                System.out.println(ANSI_GREEN_BACKGROUND + ANSI_RED + "Sorry, that is not a valid option. Please try again.\n" + ANSI_RESET);
-                // recursively prompt the user again
-                return viewAnimalInt();
-            } else {
-                // return the int the user provided
-                x = Integer.parseInt(choice);
-            }
-        } else{
-            System.out.println(choice + " is not a valid option. Please try again.");
-            return viewAnimalInt();
-        } return x;
-    }
-
-
     // Quitting program valid input
     public boolean deleteQuitAnimal() {
         String choice = scanner.nextLine();
-        if (choice == "yes" || choice == "Y" || choice == "y" || choice == "YES" ||
-                choice == "no" || choice == "NO" || choice == "N" || choice == "n") {
-            if (choice == "yes" || choice == "Y" || choice == "y" || choice == "YES") {
+        if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y") ||
+                choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
+            if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
                 return true;
             } else {
                 return false;
@@ -153,5 +130,4 @@ public class MenuService {
         Animal animal = promptForAnimalData(name,species,breed,description);
         return animal;
     }
-
 }
