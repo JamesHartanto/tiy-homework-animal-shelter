@@ -112,6 +112,5 @@ public class Animal {
         } else {
             System.out.println("The description for the animal is required! Please try again.");
         }
-
     }
 }

@@ -94,6 +94,18 @@ public class MenuService {
     }
 
 
+    // Quitting program valid input
+    public boolean deleteQuitAnimal(){
+        if (scanner.nextLine() == "yes" || scanner.nextLine() == "Y" || scanner.nextLine() == "y" ||
+                scanner.nextLine() == "YES" || scanner.nextLine() == "no" || scanner.nextLine() == "NO" ||
+                scanner.nextLine() == "N" || scanner.nextLine() == "n"){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     // Prompts the user for animal properties, then creates and returns a new instance of the Animal class using that data.
     private Animal promptForAnimalData(String name, String species, String breed, String description){
         Animal animal = new Animal();
