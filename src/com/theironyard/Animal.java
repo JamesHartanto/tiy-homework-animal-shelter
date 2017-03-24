@@ -43,9 +43,8 @@ public class Animal {
     }
 
     public void setName() {
-        String name = "";
-        if (!scanner.nextLine().isEmpty()){
-            name = scanner.nextLine();
+        String name = scanner.nextLine();
+        if (!name.isEmpty()){
             this.name = name;
             System.out.println("The name of the animal is: " + this.name);
         }else {
@@ -65,9 +64,8 @@ public class Animal {
     }
 
     public void setSpecies(){
-        String species = "";
-        if (!scanner.nextLine().isEmpty()){
-            species = scanner.nextLine();
+        String species = scanner.nextLine();
+        if (!species.isEmpty()){
             this.species = species;
             System.out.println("The species of the animal is: " + this.species);
         } else {
@@ -104,9 +102,8 @@ public class Animal {
     }
 
     public void setDescription(){
-        String description = "";
-        if (!scanner.nextLine().isEmpty()){
-            description = scanner.nextLine();
+        String description = scanner.nextLine();
+        if (!description.isEmpty()){
             this.description = description;
             System.out.println("The description of the animal has been created.");
         } else {

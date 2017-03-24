@@ -79,15 +79,13 @@ public class MenuService {
         if (isInteger(choice) == true) {
             // Checking boundaries of integer input
             if (Integer.parseInt(choice) > 6 || Integer.parseInt(choice) < 1) {
-                // if the next input is not an int, read it as a string to show in an error message
-                String badInput = scanner.nextLine();
                 // show an error message
                 System.out.println(ANSI_GREEN_BACKGROUND + ANSI_RED + "Sorry, that is not a valid option. Please try again.\n" + ANSI_RESET);
                 // recursively prompt the user again
                 return waitForInt(prompt);
             } else {
                 // return the int the user provided
-                x = scanner.nextInt();
+                x = Integer.parseInt(choice);
             }
         } else {
             System.out.println(choice + " is not a valid option. Please try again.");

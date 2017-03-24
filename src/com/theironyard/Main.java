@@ -65,7 +65,7 @@ public class Main {
                 animal.listOfAnimals.get(animalToKnowAbout+1);
 
 
-                // Editing animal 
+                // Editing animal
             } else if(action == MenuService.EDIT_ANIMAL){
                 //When editing an animal, don't make users retype everything.
                 // See the suggestions below regarding editing an animal.
