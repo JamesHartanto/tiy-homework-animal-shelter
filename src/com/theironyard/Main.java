@@ -19,22 +19,6 @@ public class Main {
             int action = menuService.promptForMainMenuSelection();
 
             if(action == MenuService.LIST_ANIMALS){
-                // shows the list of animals
-// MIGHT WANT TO SORT ALPHABETICALLY WHEN THERE ARE ACTUAL ANIMALS
-//             ArrayList<Animal> listOfAnimals = animal.listOfAnimals.sort();
-//                Collections.sort(animal.listOfAnimals, new Comparator() {
-//                    @Override
-//                    public int compare(Object o1, Object o2) {
-//                        return 0;
-//                    }
-//
-//                    @Override
-//                    public boolean equals(Object obj) {
-//                        return false;
-//                    }
-//                }){
-//
-//                }
                 for (int x = 0; x < animal.listOfAnimals.size(); x = x + 1) {
                     String format1 = "%-5s%s%n";
                     //String format1 = "%2d. %-20s $%.2f%n";
@@ -43,6 +27,7 @@ public class Main {
                             animal.listOfAnimals.get(x).getName(),
                             animal.listOfAnimals.get(x).getSpecies());
                 }
+
 
             } else if(action == MenuService.CREATE_ANIMAL){
                 // Prompting user to insert information about new animal
@@ -57,7 +42,7 @@ public class Main {
                 animal.setSpecies();
 
                 // Animal breed
-                System.out.println("What is the breed?");
+                System.out.println("What is the breed? (optional)");
                 animal.setBreed();
 
                 // Animal description
@@ -71,18 +56,25 @@ public class Main {
                 animal.listOfAnimals.add(0,newAnimal);
                 System.out.println("Animal has been created!");
 
+
+                // Viewing animal details
             } else if(action == MenuService.VIEW_ANIMAL_DETAILS){
                 // Asks user for which animal to see
-                System.out.println("Which animal would you like to know more about?");
-                String animalToKnowAbout = scanner.nextLine();
-                int indexOfAnimalToKnowAbout = animal.listOfAnimals.indexOf(animalToKnowAbout);
-                animal.listOfAnimals.get(indexOfAnimalToKnowAbout);
+                System.out.println("What is the numeric ID of the animal you want to view?");
+                int animalToKnowAbout = menuService.viewAnimalInt();
+                animal.listOfAnimals.get(animalToKnowAbout+1);
 
+
+                // Editing animal
             } else if(action == MenuService.EDIT_ANIMAL){
                 //When editing an animal, don't make users retype everything.
                 // See the suggestions below regarding editing an animal.
                 // Hint: You could create a method on MenuService that accepts an Animal as an argument and,
                 // for each field, if the user doesn't provide a new value, it reuses the current value.
+                System.out.println("What is the numeric ID of the animal you want to edit?");
+                int animalToKnowAbout = menuService.viewAnimalInt();
+                
+
 
             } else if (action == MenuService.DELETE_ANIMAL){
 

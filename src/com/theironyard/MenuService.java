@@ -76,6 +76,23 @@ public class MenuService {
         }
     }
 
+    // For choosing animal from list of animals
+    public int viewAnimalInt(){
+        // check if the next input is an int.
+        Animal animal = new Animal();
+        if(!scanner.hasNextInt() || scanner.nextInt() > animal.listOfAnimals.size() || scanner.nextInt() < 1){
+            // if the next input is not an int, read it as a string to show in an error message
+            String badInput = scanner.nextLine();
+            // show an error message
+            System.out.println(ANSI_GREEN_BACKGROUND + ANSI_RED + "Sorry, that is not a valid option. Please try again.\n" + ANSI_RESET);
+            // recursively prompt the user again
+            return viewAnimalInt();
+        } else {
+            // return the int the user provided
+            return scanner.nextInt();
+        }
+    }
+
 
     // Prompts the user for animal properties, then creates and returns a new instance of the Animal class using that data.
     private Animal promptForAnimalData(String name, String species, String breed, String description){

@@ -12,11 +12,27 @@ public class Animal {
     private String breed;
     private String description;
 
-    ArrayList<Animal> listOfAnimals = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
+    ArrayList<Animal> listOfAnimals = new ArrayList<>();
+
+// MIGHT WANT TO SORT ALPHABETICALLY WHEN THERE ARE ACTUAL ANIMALS
+//             ArrayList<Animal> listOfAnimals = animal.listOfAnimals.sort();
+//                Collections.sort(animal.listOfAnimals, new Comparator() {
+//                    @Override
+//                    public int compare(Object o1, Object o2) {
+//                        return 0;
+//                    }
+//
+//                    @Override
+//                    public boolean equals(Object obj) {
+//                        return false;
+//                    }
+//                }){
+//
+//                }
+
 
     // Getters and Setters for each property
-
     //name
     public String getName() {
         return name;
@@ -72,14 +88,9 @@ public class Animal {
 
     public void setBreed(){
         String breed = "";
-        if (!scanner.nextLine().isEmpty()){
-            breed = scanner.nextLine();
-            this.breed = breed;
-            System.out.println("The breed of the animal is: " + this.breed);
-        } else {
-            System.out.println("The breed for the animal is required! Please try again.");
-            setBreed();
-        }
+        breed = scanner.nextLine();
+        this.breed = breed;
+        System.out.println("The breed of the animal is: " + this.breed);
     }
 
 
