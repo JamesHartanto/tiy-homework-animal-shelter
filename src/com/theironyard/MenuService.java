@@ -80,10 +80,10 @@ public class MenuService {
     // Prompts the user for animal properties, then creates and returns a new instance of the Animal class using that data.
     private Animal promptForAnimalData(String name, String species, String breed, String description){
         Animal animal = new Animal();
-        animal.name = name;
-        animal.species = species;
-        animal.breed = breed;
-        animal.description = description;
+        animal.setName(name);
+        animal.setSpecies(species);
+        animal.setBreed(breed);
+        animal.setDescription(description);
         return animal;
     }
 

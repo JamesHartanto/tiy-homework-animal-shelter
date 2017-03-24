@@ -37,60 +37,39 @@ public class Main {
 //                }
                 for (int x = 0; x < animal.listOfAnimals.size(); x = x + 1) {
                     String format1 = "%-5s%s%n";
-                    String format2 = "%-15s%s%n";
-                    System.out.printf("%s) %s %s %s %s",
-                            format1,
+                    //String format1 = "%2d. %-20s $%.2f%n";
+                    System.out.printf("%s)   %s   %s\n",
                             x+1,
-                            animal.listOfAnimals.get(x).name,
-                            format2,
-                            animal.listOfAnimals.get(x).species);
+                            animal.listOfAnimals.get(x).getName(),
+                            animal.listOfAnimals.get(x).getSpecies());
                 }
-                // We don't need to call promptForMainMenuSelection again because in while loop?
 
             } else if(action == MenuService.CREATE_ANIMAL){
                 // Prompting user to insert information about new animal
                 System.out.println("--- Create an Animal ---");
 
                 // Animal name
-                System.out.println("What is the animal name?\n");
-                String name = "";
-                if (!scanner.nextLine().isEmpty()){
-                    name = scanner.nextLine();
-                } else {
-                    System.out.println("The name for the animal is required! Please try again.");
-                }
+                System.out.println("What is the animal name?");
+                animal.setName();
 
                 // Animal species
-                System.out.println("What is the species?\n");
-                String species = "";
-                if (!scanner.nextLine().isEmpty()) {
-                    species = scanner.nextLine();
-                } else {
-                    System.out.println("The species for the animal is required! Please try again.");
-                }
+                System.out.println("What is the species?");
+                animal.setSpecies();
 
                 // Animal breed
-                System.out.println("What is the breed?\n");
-                String breed = "";
-                if (!scanner.nextLine().isEmpty()){
-                    breed = scanner.nextLine();
-                } else {
-                    System.out.println("The breed for the animal is required! Please try again.");
-                }
+                System.out.println("What is the breed?");
+                animal.setBreed();
 
                 // Animal description
                 System.out.println("Please describe the animal!");
-                String description = "";
-                if (!scanner.nextLine().isEmpty()){
-                    description = scanner.nextLine();
-                } else {
-                    System.out.println("The description for the animal is required! Please try again.");
-                }
+                animal.setDescription();
 
                 // Creating new animal
-                Animal newAnimal = menuService.promptForNewAnimal(name,species,breed,description);
+                Animal newAnimal = menuService.promptForNewAnimal(animal.getName(),
+                        animal.getSpecies(),animal.getBreed(),animal.getDescription());
                 // Adding animal to the list
                 animal.listOfAnimals.add(0,newAnimal);
+                System.out.println("Animal has been created!");
 
             } else if(action == MenuService.VIEW_ANIMAL_DETAILS){
                 // Asks user for which animal to see
