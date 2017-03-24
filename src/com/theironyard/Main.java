@@ -65,7 +65,7 @@ public class Main {
                 animal.listOfAnimals.get(animalToKnowAbout+1);
 
 
-                // Editing animal ******
+                // Editing animal 
             } else if(action == MenuService.EDIT_ANIMAL){
                 //When editing an animal, don't make users retype everything.
                 // See the suggestions below regarding editing an animal.
@@ -73,6 +73,8 @@ public class Main {
                 // for each field, if the user doesn't provide a new value, it reuses the current value.
                 System.out.println("What is the numeric ID of the animal you want to edit?");
                 int animalToKnowAbout = menuService.viewAnimalInt();
+
+                animal.listOfAnimals.get(animalToKnowAbout);
 
 
 
@@ -85,13 +87,9 @@ public class Main {
                 animal.listOfAnimals.get(animalToKnowAbout+1);
                 if (menuService.deleteQuitAnimal() == true){
                     animal.listOfAnimals.remove(animalToKnowAbout+1);
-                } else if (menuService.deleteQuitAnimal() == false){
-                    continue;
-                } else {
-                    System.out.println("Sorry, that isn't a valid option.\n");
-                    System.out.println("Are you sure you want to delete:\n");
-                    animal.listOfAnimals.get(animalToKnowAbout+1);
-                    menuService.deleteQuitAnimal();
+                } else
+                    {
+                    // nothing happens, continue the while loop
                 }
 
 
@@ -100,12 +98,8 @@ public class Main {
                 System.out.println("Are you sure you want to quit? All of your data will be lost!");
                 if (menuService.deleteQuitAnimal() == true){
                     break;
-                } else if (menuService.deleteQuitAnimal() == false){
-                    continue;
                 } else {
-                    System.out.println("Sorry, that isn't a valid option.\n");
-                    System.out.println("Are you sure you want to quit? All of your data will be lost!");
-                    menuService.deleteQuitAnimal();
+                    // nothing happens, continue the while loop;
                 }
             }
         }

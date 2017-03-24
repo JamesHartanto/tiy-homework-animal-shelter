@@ -58,50 +58,79 @@ public class MenuService {
         return waitForInt("Please choose an option:");
     }
 
+    // Checking if input is integer
+    public static boolean isInteger(String str) {
+        try {
+            int d = Integer.parseInt(str);
+        }
+        catch(NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
     // Integer input from user
-    public int waitForInt(String prompt){
+    public int waitForInt(String prompt) {
+        int x = 0;
         // display the prompt to the user
         System.out.println(prompt);
         // check if the next input is an int.
-        if(!scanner.hasNextInt() || scanner.nextInt() > 6 || scanner.nextInt() < 1){
-            // if the next input is not an int, read it as a string to show in an error message
-            String badInput = scanner.nextLine();
-            // show an error message
-            System.out.println(ANSI_GREEN_BACKGROUND + ANSI_RED + "Sorry, that is not a valid option. Please try again.\n" + ANSI_RESET);
-            // recursively prompt the user again
-            return waitForInt(prompt);
+        String choice = scanner.nextLine();
+        if (isInteger(choice) == true) {
+            // Checking boundaries of integer input
+            if (Integer.parseInt(choice) > 6 || Integer.parseInt(choice) < 1) {
+                // if the next input is not an int, read it as a string to show in an error message
+                String badInput = scanner.nextLine();
+                // show an error message
+                System.out.println(ANSI_GREEN_BACKGROUND + ANSI_RED + "Sorry, that is not a valid option. Please try again.\n" + ANSI_RESET);
+                // recursively prompt the user again
+                return waitForInt(prompt);
+            } else {
+                // return the int the user provided
+                x = scanner.nextInt();
+            }
         } else {
-            // return the int the user provided
-            return scanner.nextInt();
-        }
+            System.out.println(choice + " is not a valid option. Please try again.");
+            return waitForInt(prompt);
+        } return x;
     }
 
     // For choosing animal from list of animals
     public int viewAnimalInt(){
-        // check if the next input is an int.
         Animal animal = new Animal();
-        if(!scanner.hasNextInt() || scanner.nextInt() > animal.listOfAnimals.size() || scanner.nextInt() < 1){
-            // if the next input is not an int, read it as a string to show in an error message
-            String badInput = scanner.nextLine();
-            // show an error message
-            System.out.println(ANSI_GREEN_BACKGROUND + ANSI_RED + "Sorry, that is not a valid option. Please try again.\n" + ANSI_RESET);
-            // recursively prompt the user again
+        int x = 0;
+        // check if the next input is an int.
+        String choice = scanner.nextLine();
+        if (isInteger(choice) == true){
+            if(Integer.parseInt(choice) > animal.listOfAnimals.size() || Integer.parseInt(choice) < 1){
+                // if the next input is not an int, read it as a string to show in an error message
+                System.out.println(ANSI_GREEN_BACKGROUND + ANSI_RED + "Sorry, that is not a valid option. Please try again.\n" + ANSI_RESET);
+                // recursively prompt the user again
+                return viewAnimalInt();
+            } else {
+                // return the int the user provided
+                x = Integer.parseInt(choice);
+            }
+        } else{
+            System.out.println(choice + " is not a valid option. Please try again.");
             return viewAnimalInt();
-        } else {
-            // return the int the user provided
-            return scanner.nextInt();
-        }
+        } return x;
     }
 
 
     // Quitting program valid input
-    public boolean deleteQuitAnimal(){
-        if (scanner.nextLine() == "yes" || scanner.nextLine() == "Y" || scanner.nextLine() == "y" ||
-                scanner.nextLine() == "YES" || scanner.nextLine() == "no" || scanner.nextLine() == "NO" ||
-                scanner.nextLine() == "N" || scanner.nextLine() == "n"){
-            return true;
-        } else {
-            return false;
+    public boolean deleteQuitAnimal() {
+        String choice = scanner.nextLine();
+        if (choice == "yes" || choice == "Y" || choice == "y" || choice == "YES" ||
+                choice == "no" || choice == "NO" || choice == "N" || choice == "n") {
+            if (choice == "yes" || choice == "Y" || choice == "y" || choice == "YES") {
+                return true;
+            } else {
+                return false;
+            }
+        } else{
+            System.out.println("Sorry that is an invalid input! Please try again.");
+            return deleteQuitAnimal();
         }
     }
 
