@@ -98,10 +98,39 @@ public class Main {
                 x = Integer.parseInt(choice)-1;
                 System.out.println("Please answer the following questions. Press enter to keep the current values.");
                 // The values
-                // listOfAnimals.get(x).getName();
-                // listOfAnimals.get(x).getSpecies();
-                // listOfAnimals.get(x).getBreed();
-                // listOfAnimals.get(x).getDescription();
+                    // animal name
+                System.out.println("Animal name [" +listOfAnimals.get(x).getName() + "]: ");
+                String answerName = scanner.nextLine(); // might need to change this to same line ****
+                if (answerName.isEmpty()){
+                    listOfAnimals.get(x).setName(listOfAnimals.get(x).getName());
+                } else {
+                    listOfAnimals.get(x).setName(answerName);
+                }
+                    // animal species
+                System.out.println("Animal species [" +listOfAnimals.get(x).getSpecies() + "]: ");
+                String answerSpecies = scanner.nextLine(); // might need to change this to same line ****
+                if (answerSpecies.isEmpty()){
+                    listOfAnimals.get(x).setSpecies(listOfAnimals.get(x).getSpecies());
+                } else {
+                    listOfAnimals.get(x).setSpecies(answerSpecies);
+                }
+                    // animal breed
+                System.out.println("Animal breed [" +listOfAnimals.get(x).getBreed() + "]: ");
+                String answerBreed = scanner.nextLine(); // might need to change this to same line ****
+                if (answerBreed.isEmpty()){
+                    listOfAnimals.get(x).setBreed(listOfAnimals.get(x).getBreed());
+                } else {
+                    listOfAnimals.get(x).setBreed(answerBreed);
+                }
+                    // animal description
+                System.out.println("Animal description [" +listOfAnimals.get(x).getDescription() + "]: ");
+                String answerDescription = scanner.nextLine(); // might need to change this to same line ****
+                if (answerDescription.isEmpty()){
+                    listOfAnimals.get(x).setDescription(listOfAnimals.get(x).getDescription());
+                } else {
+                    listOfAnimals.get(x).setDescription(answerDescription);
+                }
+                System.out.println("Animal has been updated!");
 
 
                 // Delete an animal in the shelter
@@ -131,7 +160,7 @@ public class Main {
 
                 // Quit the animal shelter program
             } else if (action == MenuService.QUIT){
-                System.out.println("Leaving so soon? All of your data will be lost!");
+                System.out.println("Leaving so soon? All of your data will be lost! (Y/N)");
                 if (menuService.deleteQuitAnimal() == true){
                     break;
                 } else {
