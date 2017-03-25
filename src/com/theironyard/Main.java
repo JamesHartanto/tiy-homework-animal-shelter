@@ -99,15 +99,15 @@ public class Main {
                 System.out.println("Please answer the following questions. Press enter to keep the current values.");
                 // The values
                     // animal name
-                System.out.println("Animal name [" +listOfAnimals.get(x).getName() + "]: ");
-                String answerName = scanner.nextLine(); // might need to change this to same line ****
+                System.out.print("Animal name [" +listOfAnimals.get(x).getName() + "]: ");
+                String answerName = scanner.nextLine();
                 if (answerName.isEmpty()){
                     listOfAnimals.get(x).setName(listOfAnimals.get(x).getName());
                 } else {
                     listOfAnimals.get(x).setName(answerName);
                 }
                     // animal species
-                System.out.println("Animal species [" +listOfAnimals.get(x).getSpecies() + "]: ");
+                System.out.print("Animal species [" +listOfAnimals.get(x).getSpecies() + "]: ");
                 String answerSpecies = scanner.nextLine(); // might need to change this to same line ****
                 if (answerSpecies.isEmpty()){
                     listOfAnimals.get(x).setSpecies(listOfAnimals.get(x).getSpecies());
@@ -115,7 +115,7 @@ public class Main {
                     listOfAnimals.get(x).setSpecies(answerSpecies);
                 }
                     // animal breed
-                System.out.println("Animal breed [" +listOfAnimals.get(x).getBreed() + "]: ");
+                System.out.print("Animal breed [" +listOfAnimals.get(x).getBreed() + "]: ");
                 String answerBreed = scanner.nextLine(); // might need to change this to same line ****
                 if (answerBreed.isEmpty()){
                     listOfAnimals.get(x).setBreed(listOfAnimals.get(x).getBreed());
@@ -123,7 +123,7 @@ public class Main {
                     listOfAnimals.get(x).setBreed(answerBreed);
                 }
                     // animal description
-                System.out.println("Animal description [" +listOfAnimals.get(x).getDescription() + "]: ");
+                System.out.print("Animal description [" +listOfAnimals.get(x).getDescription() + "]: ");
                 String answerDescription = scanner.nextLine(); // might need to change this to same line ****
                 if (answerDescription.isEmpty()){
                     listOfAnimals.get(x).setDescription(listOfAnimals.get(x).getDescription());
