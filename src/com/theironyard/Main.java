@@ -101,22 +101,22 @@ public class Main {
                     // animal name
                 System.out.print("Animal name [" +listOfAnimals.get(x).getName() + "]: ");
                 String answerName = scanner.nextLine();
-                if (answerName.isEmpty()){
+                if (answerName.trim().isEmpty()){
                     listOfAnimals.get(x).setName(listOfAnimals.get(x).getName());
                 } else {
                     listOfAnimals.get(x).setName(answerName);
                 }
                     // animal species
                 System.out.print("Animal species [" +listOfAnimals.get(x).getSpecies() + "]: ");
-                String answerSpecies = scanner.nextLine(); // might need to change this to same line ****
-                if (answerSpecies.isEmpty()){
+                String answerSpecies = scanner.nextLine();
+                if (answerSpecies.trim().isEmpty()){
                     listOfAnimals.get(x).setSpecies(listOfAnimals.get(x).getSpecies());
                 } else {
                     listOfAnimals.get(x).setSpecies(answerSpecies);
                 }
                     // animal breed
-                System.out.print("Animal breed [" +listOfAnimals.get(x).getBreed() + "]: ");
-                String answerBreed = scanner.nextLine(); // might need to change this to same line ****
+                System.out.print("Animal breed (optional) [" +listOfAnimals.get(x).getBreed() + "]: ");
+                String answerBreed = scanner.nextLine();
                 if (answerBreed.isEmpty()){
                     listOfAnimals.get(x).setBreed(listOfAnimals.get(x).getBreed());
                 } else {
@@ -124,8 +124,8 @@ public class Main {
                 }
                     // animal description
                 System.out.print("Animal description [" +listOfAnimals.get(x).getDescription() + "]: ");
-                String answerDescription = scanner.nextLine(); // might need to change this to same line ****
-                if (answerDescription.isEmpty()){
+                String answerDescription = scanner.nextLine();
+                if (answerDescription.trim().isEmpty()){
                     listOfAnimals.get(x).setDescription(listOfAnimals.get(x).getDescription());
                 } else {
                     listOfAnimals.get(x).setDescription(answerDescription);

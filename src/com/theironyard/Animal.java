@@ -43,11 +43,13 @@ public class Animal {
 
     public void setName() {
         String name = scanner.nextLine();
-        if (!name.isEmpty()){
+        if (!name.trim().isEmpty()){
             this.name = name;
             System.out.println("The name of the animal is: " + this.name);
         }else {
-            System.out.println("The name for the animal is required! Please try again.");
+            System.out.println(MenuService.ANSI_GREEN_BACKGROUND + MenuService.ANSI_RED +
+                    "The name for the animal is required! Please try again.\n"
+                     + MenuService.ANSI_RESET);
             setName();
         }
     }
@@ -64,11 +66,13 @@ public class Animal {
 
     public void setSpecies(){
         String species = scanner.nextLine();
-        if (!species.isEmpty()){
+        if (!species.trim().isEmpty()){
             this.species = species;
             System.out.println("The species of the animal is: " + this.species);
         } else {
-            System.out.println("The species for the animal is required! Please try again.");
+            System.out.println(MenuService.ANSI_GREEN_BACKGROUND + MenuService.ANSI_RED +
+                    "The species for the animal is required! Please try again.\n"
+                    + MenuService.ANSI_RESET);
             setSpecies();;
         }
     }
@@ -102,11 +106,13 @@ public class Animal {
 
     public void setDescription(){
         String description = scanner.nextLine();
-        if (!description.isEmpty()){
+        if (!description.trim().isEmpty()){
             this.description = description;
             System.out.println("The description of the animal has been created.");
         } else {
-            System.out.println("The description for the animal is required! Please try again.");
+            System.out.println(MenuService.ANSI_GREEN_BACKGROUND + MenuService.ANSI_RED +
+                    "The description for the animal is required! Please try again.\n"
+                    + MenuService.ANSI_RESET);
         }
     }
 

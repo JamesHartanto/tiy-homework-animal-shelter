@@ -80,7 +80,8 @@ public class MenuService {
             // Checking boundaries of integer input
             if (Integer.parseInt(choice) > 6 || Integer.parseInt(choice) < 1) {
                 // show an error message
-                System.out.println(ANSI_GREEN_BACKGROUND + ANSI_RED + "Sorry, that is not a valid option. Please try again.\n" + ANSI_RESET);
+                System.out.println(ANSI_GREEN_BACKGROUND + ANSI_RED + "Sorry, that is not a valid option. " +
+                        "Please try again.\n" + ANSI_RESET);
                 // recursively prompt the user again
                 return waitForInt(prompt);
             } else {
@@ -88,7 +89,8 @@ public class MenuService {
                 x = Integer.parseInt(choice);
             }
         } else {
-            System.out.println(choice + " is not a valid option. Please try again.");
+            System.out.println(ANSI_GREEN_BACKGROUND + ANSI_RED + choice +
+                    " is not a valid option. Please try again.\n" + ANSI_RESET);
             return waitForInt(prompt);
         } return x;
     }
@@ -104,7 +106,8 @@ public class MenuService {
                 return false;
             }
         } else{
-            System.out.println("Sorry that is an invalid input! Please try again.");
+            System.out.println(ANSI_GREEN_BACKGROUND + ANSI_RED +
+                    "Sorry that is an invalid input! Please try again.\n" + ANSI_RESET);
             return deleteQuitAnimal();
         }
     }
@@ -122,11 +125,6 @@ public class MenuService {
 
     // Creating an animal
     public Animal promptForNewAnimal(String name, String species, String breed, String description){
-        Animal animal = promptForAnimalData(name,species,breed,description);
-        return animal;
-    }
-
-    public Animal promptForEditAnimal(String name, String species, String breed, String description){
         Animal animal = promptForAnimalData(name,species,breed,description);
         return animal;
     }
