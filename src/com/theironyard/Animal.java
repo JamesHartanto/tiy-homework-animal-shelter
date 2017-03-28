@@ -12,6 +12,8 @@ public class Animal {
     private String breed;
     private String description;
 
+    //test?
+
     Scanner scanner = new Scanner(System.in);
 
 // MIGHT WANT TO SORT ALPHABETICALLY WHEN THERE ARE ACTUAL ANIMALS
