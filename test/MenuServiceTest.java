@@ -368,7 +368,7 @@ public class MenuServiceTest {
         // Assert
         assertThat(outputStream.toString(),containsString("Animal name is now set to: Zoro"));
         assertThat(outputStream.toString(),containsString("Animal species is now set to: 123"));
-        assertThat(outputStream.toString(),containsString("Animal breed is now set to: Rubber"));
+        assertThat(outputStream.toString(),containsString("Animal breed is now set to: "));
         assertThat(outputStream.toString(),containsString("Animal description is: Captain"));
     }
 }
