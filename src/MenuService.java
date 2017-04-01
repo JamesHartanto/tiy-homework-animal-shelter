@@ -10,6 +10,7 @@ public class MenuService {
         this.scanner = scanner;
     }
 
+    // Main menu
     public int promptForMainMenu() {
         System.out.println("-- Main Menu --\n" +
                 "1) List animals\n" +
@@ -34,6 +35,7 @@ public class MenuService {
         }
     }
 
+    // Listing animals #1
     public void listAnimals(ArrayList<Animals> Animals) {
         if (Animals.isEmpty()){
             System.out.println("All the animals have a home! " +
@@ -45,9 +47,51 @@ public class MenuService {
             for (int x = 0; x < Animals.size(); x = x + 1){
                 name = Animals.get(x).getName();
                 species = Animals.get(x).getSpecies();
-                System.out.printf("%-5s) %-15s %-15s", x + 1, name, species);
+                System.out.printf("%-5s) %-15s %-15s\n", x + 1, name, species);
             }
         }
 
     }
+
+    // Creating an animal #2
+    public Animals createAnAnimal() {
+        System.out.println("---Create an Animal---\nPlease answer the following questions:");
+        // Animal name
+        String name = promptForString("What is the animal's name?");
+        System.out.println("The name of the animal is: " + name);
+
+        // Species
+        String species = promptForString("What is the species of the animal?");
+        System.out.println("The species of the animal is: " + species);
+
+        // Breed
+        System.out.println("What is the breed of the animal? (optional)");
+        String breed = scanner.nextLine();
+
+        // Description
+        String description = promptForString("Please describe the animal!");
+        System.out.println("Description: " + description);
+
+        // Creating the animal
+        Animals Animal = new Animals(name,species,breed,description);
+        return Animal;
+    }
+
+    // Viewing a particular animal #3
+    public void viewAnimal() {
+
+    }
+
+    // Useful methods
+    private String promptForString(String message) {
+        System.out.println(message);
+        String input = scanner.nextLine().trim();
+        if (input.isEmpty()){
+            System.out.println("Error: You did not input anything!");
+            return promptForString(message);
+        } else {
+            return input;
+        }
+    }
+
 }

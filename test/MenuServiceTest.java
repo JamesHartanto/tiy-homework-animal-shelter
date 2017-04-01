@@ -122,9 +122,9 @@ public class MenuServiceTest {
         // Arrange
         Scanner scanner = new Scanner("1");
         MenuService menuService = new MenuService(scanner);
-        ArrayList<Animals> Animals = new ArrayList<>();
+        ArrayList<Animals> AnimalsList = new ArrayList<>();
         // Act
-        menuService.listAnimals(Animals);
+        menuService.listAnimals(AnimalsList);
         // Assert
         assertThat(outputStream.toString(),equalTo("All the animals have a home! " +
                 "There is currently no animal living in the shelter!\n"));
@@ -140,19 +140,19 @@ public class MenuServiceTest {
         // Arrange
         Scanner scanner = new Scanner("1");
         MenuService menuService = new MenuService(scanner);
-        ArrayList<Animals> Animals = new ArrayList<>();
+        ArrayList<Animals> AnimalsList = new ArrayList<>();
         Animals animal1 = new Animals("Bob","Dinosaur","T-rex","Short Arms");
         Animals animal2 = new Animals("Bill","Monkey","Unknown","Hates Bananas");
         Animals animal3 = new Animals("Nye","Unknown","","Alien?");
         Animals animal4 = new Animals("Science","Human","Nerd","Wears Big Glasses");
         Animals animal5 = new Animals("Guy","Fish","Clownfish","Orange and White");
-        Animals.add(animal1);
-        Animals.add(animal2);
-        Animals.add(animal3);
-        Animals.add(animal4);
-        Animals.add(animal5);
+        AnimalsList.add(animal1);
+        AnimalsList.add(animal2);
+        AnimalsList.add(animal3);
+        AnimalsList.add(animal4);
+        AnimalsList.add(animal5);
         // Act
-        menuService.listAnimals(Animals);
+        menuService.listAnimals(AnimalsList);
         // Assert
         assertThat(outputStream.toString(),containsString("--- ANIMALS IN SHELTER ---"));
         assertThat(outputStream.toString(),containsString("Bob"));
@@ -169,6 +169,28 @@ public class MenuServiceTest {
 
     @Test
     /**
+     * Given a list of animals
+     * When the list method is called
+     * Then each animal is indexed
+     */
+    public void listOfAnimalsListMethodThenAnimalsIndexed() {
+        // Arrange
+        Scanner scanner = new Scanner("1");
+        MenuService menuService = new MenuService(scanner);
+        ArrayList<Animals> AnimalsList = new ArrayList<>();
+        Animals animal1 = new Animals("Bob", "Dinosaur", "T-rex", "Short Arms");
+        Animals animal2 = new Animals("Bill", "Monkey", "Unknown", "Hates Bananas");
+        AnimalsList.add(animal1);
+        AnimalsList.add(animal2);
+        // Act
+        menuService.listAnimals(AnimalsList);
+        // Assert
+        assertThat(outputStream.toString(), containsString("1"));
+        assertThat(outputStream.toString(), containsString("2"));
+    }
+
+    @Test
+    /**
      * Given a main menu
      * When the user inputs 1
      * Then the list animals method is invoked
@@ -177,18 +199,69 @@ public class MenuServiceTest {
         // Arrange
         Scanner scanner = new Scanner("1");
         MenuService menuService = new MenuService(scanner);
-        ArrayList<Animals> Animals = new ArrayList<>();
+        ArrayList<Animals> AnimalsList = new ArrayList<>();
         // Act
         int listAnimal1 = menuService.promptForMainMenu();
         if (listAnimal1==1){
-            menuService.listAnimals(Animals);
+            menuService.listAnimals(AnimalsList);
         }
         // Assert
         MatcherAssert.assertThat(outputStream.toString(),containsString("All the animals have a home! " +
                 "There is currently no animal living in the shelter!\n"));
     }
 
+    @Test
+    /**
+     * Given the main menu and the user inputs 2 to create animal
+     * When an animal is created
+     * The list contains the new animal
+     */
+    public void animalCreatedThenListContainsNewAnimal(){
+        // Arrange
+        Scanner scanner = new Scanner("Bob\nDinosaur\nLong Neck\nShort legs");
+        MenuService menuService = new MenuService(scanner);
+        ArrayList<Animals> AnimalsList = new ArrayList<>();
+        // Act
+        Animals newAnimal = menuService.createAnAnimal();
+        AnimalsList.add(newAnimal);
+        // Assert
+        assertThat(AnimalsList.size(),equalTo(1));
+    }
 
+    @Test
+    /**
+     * Given the main menu and the user inputs 2 to create animal
+     * When the user does not put input for not nullable fields (name, species, description)
+     * Then an error message is shown and a retry
+     */
+    public void createAnimalNoInputForNotNullableFieldsErrorMessageShownAndRetry(){
+        // Arrange
+        Scanner scanner = new Scanner("\n" +
+                "Bob\n" +
+                "\n" +
+                "Dinosaur\n" +
+                "\n" +
+                "\n" +
+                "Short Legs\n");
+        MenuService menuService = new MenuService(scanner);
+        // Act
+        Animals Animal = menuService.createAnAnimal();
+        // Assert
+        assertThat(outputStream.toString(),containsString("Error: The name for the animal is required! Please try again!\n"));
+        assertThat(outputStream.toString(),containsString("Error: The species for the animal is required! Please try again!\n"));
+        assertThat(outputStream.toString(),containsString("Error: The description for the animal is required! Please try again!\n"));
+        assertThat(Animal.getName(),equalTo("Bob"));
+        assertThat(Animal.getSpecies(),equalTo("Dinosaur"));
+        assertThat(Animal.getBreed(),equalTo(""));
+        assertThat(Animal.getDescription(),equalTo("Short Legs"));
+    }
+
+    // @Test
+    /**
+     * Given a main menu and a list with 2 animals
+     * When view animal is prompted
+     * Then the animal details at the particular index is shown
+     */
 
     }
 

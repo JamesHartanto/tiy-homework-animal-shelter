@@ -27,5 +27,4 @@ public class AnimalsTest {
         assertThat(animals.getBreed(),equalTo("Unknown"));
         assertThat(animals.getDescription(),equalTo("Short and chubby"));
     }
-
 }

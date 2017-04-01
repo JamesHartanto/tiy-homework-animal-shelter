@@ -15,34 +15,44 @@ public class Animals {
         this.description = description;
     }
 
+    // SETTERS
+    // Name
     public void setName(String name) {
         this.name = name;
     }
 
+    // Species
     public void setSpecies(String species) {
         this.species = species;
     }
 
+    // Breed
     public void setBreed(String breed) {
         this.breed = breed;
     }
 
+    // Description
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getBreed() {
-        return breed;
-    }
-
+    // GETTERS
+    // Name
     public String getName() {
         return name;
     }
 
+    // Species
     public String getSpecies() {
         return species;
     }
 
+    // Breed
+    public String getBreed() {
+        return breed;
+    }
+
+    // Desciption
     public String getDescription() {
         return description;
     }
