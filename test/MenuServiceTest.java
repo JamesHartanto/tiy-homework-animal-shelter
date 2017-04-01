@@ -247,22 +247,64 @@ public class MenuServiceTest {
         // Act
         Animals Animal = menuService.createAnAnimal();
         // Assert
-        assertThat(outputStream.toString(),containsString("Error: The name for the animal is required! Please try again!\n"));
-        assertThat(outputStream.toString(),containsString("Error: The species for the animal is required! Please try again!\n"));
-        assertThat(outputStream.toString(),containsString("Error: The description for the animal is required! Please try again!\n"));
+        assertThat(outputStream.toString(),containsString("Error: You did not input anything!\n"));
         assertThat(Animal.getName(),equalTo("Bob"));
         assertThat(Animal.getSpecies(),equalTo("Dinosaur"));
         assertThat(Animal.getBreed(),equalTo(""));
         assertThat(Animal.getDescription(),equalTo("Short Legs"));
     }
 
-    // @Test
+    @Test
     /**
      * Given a main menu and a list with 2 animals
-     * When view animal is prompted
+     * When view animal 2 is prompted
      * Then the animal details at the particular index is shown
      */
-
+    public void viewAnimalPromptedThenAnimalDetailsAtParticularIndexShown(){
+        // Arrange
+        Scanner scanner = new Scanner("2");
+        MenuService menuService = new MenuService(scanner);
+        ArrayList<Animals> AnimalsList = new ArrayList<>();
+        Animals Animal1 = new Animals("Zack","Tower","Bravo","Tango");
+        Animals Animal2 = new Animals("Bobby","Billy","Zappy","Stringy");
+        AnimalsList.add(Animal1);
+        AnimalsList.add(Animal2);
+        // Act
+        menuService.viewAnimal(AnimalsList);
+        // Assert
+        assertThat(outputStream.toString(),containsString("Bobby"));
+        assertThat(outputStream.toString(),containsString("Billy"));
+        assertThat(outputStream.toString(),containsString("Zappy"));
+        assertThat(outputStream.toString(),containsString("Stringy"));
     }
 
+    @Test
+    /**
+     * Given a main menu with 3 animals
+     * When bad inputs are given for view animal
+     * Then error messages are prompted until valid inputs are inserted
+     */
+    public void badInputsGivenForViewAnimalThenErrorMessageUntilValidInput() {
+        // Arrange
+        Scanner scanner = new Scanner("5\nDinosaur\n0\n3");
+        MenuService menuService = new MenuService(scanner);
+        ArrayList<Animals> AnimalsList = new ArrayList<>();
+        Animals Animal1 = new Animals("Zack", "Tower", "Bravo", "Tango");
+        Animals Animal2 = new Animals("Bobby", "Billy", "Zappy", "Stringy");
+        Animals Animal3 = new Animals("Father", "Mother", "Brother", "Sister");
+        AnimalsList.add(Animal1);
+        AnimalsList.add(Animal2);
+        AnimalsList.add(Animal3);
+        // Act
+        menuService.viewAnimal(AnimalsList);
+        // Assert
+        assertThat(outputStream.toString(),containsString("5 is not part of the list! Please try again!"));
+        assertThat(outputStream.toString(),containsString("Error: Invalid input! Dinosaur is not an integer!"));
+        assertThat(outputStream.toString(),containsString("0 is not part of the list! Please try again!"));
+        assertThat(outputStream.toString(),containsString("Father"));
+        assertThat(outputStream.toString(),containsString("Mother"));
+        assertThat(outputStream.toString(),containsString("Brother"));
+        assertThat(outputStream.toString(),containsString("Sister"));
+    }
+    
 }

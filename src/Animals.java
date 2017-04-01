@@ -56,4 +56,14 @@ public class Animals {
     public String getDescription() {
         return description;
     }
+
+    @Override
+    public String toString() {
+        return "Animals{" +
+                "name='" + name + '\'' +
+                ", species='" + species + '\'' +
+                ", breed='" + breed + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

@@ -36,17 +36,17 @@ public class MenuService {
     }
 
     // Listing animals #1
-    public void listAnimals(ArrayList<Animals> Animals) {
-        if (Animals.isEmpty()){
+    public void listAnimals(ArrayList<Animals> AnimalsList) {
+        if (AnimalsList.isEmpty()){
             System.out.println("All the animals have a home! " +
                     "There is currently no animal living in the shelter!");
         } else {
             System.out.println("--- ANIMALS IN SHELTER ---");
             String name = "";
             String species = "";
-            for (int x = 0; x < Animals.size(); x = x + 1){
-                name = Animals.get(x).getName();
-                species = Animals.get(x).getSpecies();
+            for (int x = 0; x < AnimalsList.size(); x = x + 1){
+                name = AnimalsList.get(x).getName();
+                species = AnimalsList.get(x).getSpecies();
                 System.out.printf("%-5s) %-15s %-15s\n", x + 1, name, species);
             }
         }
@@ -78,11 +78,27 @@ public class MenuService {
     }
 
     // Viewing a particular animal #3
-    public void viewAnimal() {
-
+    public void viewAnimal(ArrayList<Animals> Animals) {
+        System.out.println("--View an Animal--");
+        System.out.println("What is the numeric ID of the animal you want to view?");
+        int input = 0;
+        if (scanner.hasNextInt() == true){
+            input = scanner.nextInt();
+            if (input > Animals.size() || input < 1){
+                System.out.println(input + " is not part of the list! Please try again!\n");
+                viewAnimal(Animals);
+            } else {
+                System.out.println(Animals.get(input-1));
+            }
+        } else {
+            String badInput = scanner.nextLine();
+            System.out.println("Error: Invalid input! " + badInput + " is not an integer!");
+            viewAnimal(Animals);
+        }
     }
 
-    // Useful methods
+    // USEFUL METHODS
+    // Checking if input is not empty
     private String promptForString(String message) {
         System.out.println(message);
         String input = scanner.nextLine().trim();
