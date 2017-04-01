@@ -306,5 +306,69 @@ public class MenuServiceTest {
         assertThat(outputStream.toString(),containsString("Brother"));
         assertThat(outputStream.toString(),containsString("Sister"));
     }
-    
+
+
+    @Test
+    /**
+     * Given a main menu
+     * When edit animal is prompted
+     * Then edit animal messages come out
+     */
+    public void EditAnimalIsPromptedThenEditMessages(){
+        // Arrange
+        Scanner scanner = new Scanner("1\nnope\nyup\nhappy\nsad");
+        MenuService menuService = new MenuService(scanner);
+        ArrayList<Animals> AnimalsList = new ArrayList<>();
+        Animals Animal1 = new Animals("Luffy", "Pirate", "Rubber", "Captain");
+        AnimalsList.add(Animal1);
+        // Act
+        menuService.editAnimal(AnimalsList);
+        // Assert
+        assertThat(outputStream.toString(),containsString("What is the numeric ID of the animal you want to edit?"));
+        assertThat(outputStream.toString(),containsString("Please answer the following questions. Press enter to keep the current values."));
+        assertThat(outputStream.toString(),containsString("Animal name"));
+        assertThat(outputStream.toString(),containsString("Animal species"));
+        assertThat(outputStream.toString(),containsString("Animal breed (optional)"));
+        assertThat(outputStream.toString(),containsString("Animal description"));
+    }
+
+    @Test
+    /**
+     * Given a main menu with an animal
+     * When bad inputs are given
+     * Then error messages are shown
+     */
+    public void BadInputsGivenThenErrorMessagesShown(){
+        Scanner scanner = new Scanner("5\n0\n1\nZoro the swordsman\n123\n \nCaptain");
+        MenuService menuService = new MenuService(scanner);
+        ArrayList<Animals> AnimalsList = new ArrayList<>();
+        Animals Animal1 = new Animals("Luffy", "Pirate", "Rubber", "Orphan");
+        AnimalsList.add(Animal1);
+        // Act
+        menuService.editAnimal(AnimalsList);
+        // Assert
+        assertThat(outputStream.toString(),containsString("5 is not part of the list! Please try again!"));
+        assertThat(outputStream.toString(),containsString("0 is not part of the list! Please try again!"));
+    }
+
+    @Test
+    /**
+     * Given a main menu with an animal
+     * When different inputs are given
+     * Then appropriate messages are shown
+     */
+    public void InputsGivenThenAppropriateMessagesShown(){
+        Scanner scanner = new Scanner("1\nZoro the swordsman\n123\n \nCaptain");
+        MenuService menuService = new MenuService(scanner);
+        ArrayList<Animals> AnimalsList = new ArrayList<>();
+        Animals Animal1 = new Animals("Luffy", "Pirate", "Rubber", "Orphan");
+        AnimalsList.add(Animal1);
+        // Act
+        menuService.editAnimal(AnimalsList);
+        // Assert
+        assertThat(outputStream.toString(),containsString("Animal name is now set to: Zoro"));
+        assertThat(outputStream.toString(),containsString("Animal species is now set to: 123"));
+        assertThat(outputStream.toString(),containsString("Animal breed is now set to: Rubber"));
+        assertThat(outputStream.toString(),containsString("Animal description is: Captain"));
+    }
 }

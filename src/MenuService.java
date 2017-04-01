@@ -56,6 +56,7 @@ public class MenuService {
     // Creating an animal #2
     public Animals createAnAnimal() {
         System.out.println("---Create an Animal---\nPlease answer the following questions:");
+
         // Animal name
         String name = promptForString("What is the animal's name?");
         System.out.println("The name of the animal is: " + name);
@@ -78,24 +79,98 @@ public class MenuService {
     }
 
     // Viewing a particular animal #3
-    public void viewAnimal(ArrayList<Animals> Animals) {
+    public void viewAnimal(ArrayList<Animals> AnimalsList) {
         System.out.println("--View an Animal--");
         System.out.println("What is the numeric ID of the animal you want to view?");
+
+        // Creating variable to store user input
         int input = 0;
-        if (scanner.hasNextInt() == true){
+
+        // Checks if user input is an integer
+        if (scanner.hasNextInt()){
             input = scanner.nextInt();
-            if (input > Animals.size() || input < 1){
-                System.out.println(input + " is not part of the list! Please try again!\n");
-                viewAnimal(Animals);
+
+            // Checks to see if integer is in the list
+            if (input > AnimalsList.size() || input < 1){
+                System.out.println(input + " is not part of the list! Please try again!");
+                viewAnimal(AnimalsList);
+
             } else {
-                System.out.println(Animals.get(input-1));
+                System.out.println(AnimalsList.get(input-1));
             }
+
         } else {
             String badInput = scanner.nextLine();
             System.out.println("Error: Invalid input! " + badInput + " is not an integer!");
-            viewAnimal(Animals);
+            viewAnimal(AnimalsList);
         }
     }
+
+    // Editing an animal #4
+    public void editAnimal(ArrayList<Animals> AnimalsList) {
+        System.out.println("--Edit Animal--");
+        System.out.println("What is the numeric ID of the animal you want to edit?");
+
+
+        // Checks if user input is an integer - needed to use Integer.parseInt so test can read next line properly
+        int input = 0;
+
+        if (scanner.hasNextInt()){
+            input = scanner.nextInt();
+
+            // Checks to see if integer is in the list
+            if (input > AnimalsList.size() || input < 1){
+                System.out.println(input + " is not part of the list! Please try again!");
+                editAnimal(AnimalsList);
+            } else {
+
+                // EDITING THE ANIMAL
+                System.out.println("Please answer the following questions. Press enter to keep the current values.");
+
+                // name
+                System.out.println("Animal name [" + AnimalsList.get(input-1).getName() + "]: ");
+                String name = scanner.nextLine().trim();
+                // only changes value if there is a non-empty entry
+                if (!name.isEmpty()){
+                    AnimalsList.get(input-1).setName(name);
+                    System.out.println("Animal name is now set to: "+ name);
+                }
+
+                // species
+                System.out.println("Animal species [" + AnimalsList.get(input-1).getSpecies() + "]: ");
+                String species = scanner.nextLine().trim();
+                if (!species.isEmpty()){
+                    AnimalsList.get(input-1).setSpecies(species);
+                    System.out.println("Animal species is now set to: " + species);
+                }
+
+                // breed - no trim because it can be edited to nothing
+                System.out.println("Animal breed (optional) [" + AnimalsList.get(input-1).getBreed() + "]: ");
+                String breed = scanner.nextLine();
+                if (!breed.isEmpty()){
+                    AnimalsList.get(input-1).setBreed(breed);
+                    System.out.println("Animal breed is now set to: " + breed);
+                }
+
+                // description
+                System.out.println("Animal description [" + AnimalsList.get(input-1).getDescription() + "]: ");
+                String description = scanner.nextLine().trim();
+                if (!description.isEmpty()){
+                    AnimalsList.get(input-1).setDescription(description);
+                    System.out.println("Animal description is: " + description);
+                }
+
+                System.out.println("Animal has been successfully updated!");
+            }
+
+        // If input was not integer
+        } else {
+            String badInput = scanner.nextLine();
+            System.out.println("Error: Invalid input! " + badInput + " is not an integer!");
+            editAnimal(AnimalsList);
+        }
+    }
+
 
     // USEFUL METHODS
     // Checking if input is not empty
@@ -108,6 +183,10 @@ public class MenuService {
         } else {
             return input;
         }
+    }
+
+    // Checking if input is integer
+    private int promptForInt() {
     }
 
 }
