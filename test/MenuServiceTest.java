@@ -126,8 +126,8 @@ public class MenuServiceTest {
         // Act
         menuService.listAnimals(AnimalsList);
         // Assert
-        assertThat(outputStream.toString(),equalTo("All the animals have a home! " +
-                "There is currently no animal living in the shelter!\n"));
+        assertThat(outputStream.toString(),equalTo("--List Animals--\n" +
+                "All the animals have a home! There is currently no animal living in the shelter!\n"));
     }
 
     @Test
@@ -347,29 +347,12 @@ public class MenuServiceTest {
         // Act
         menuService.editAnimal(AnimalsList);
         // Assert
-        assertThat(outputStream.toString(),containsString("5 is not part of the list! Please try again!"));
-        assertThat(outputStream.toString(),containsString("0 is not part of the list! Please try again!"));
-    }
-
-    @Test
-    /**
-     * Given a main menu with an animal
-     * When different inputs are given for edit animal
-     * Then appropriate messages are shown
-     */
-    public void InputsGivenThenAppropriateMessagesShown(){
-        Scanner scanner = new Scanner("1\nZoro the swordsman\n123\n \nCaptain");
-        MenuService menuService = new MenuService(scanner);
-        ArrayList<Animals> AnimalsList = new ArrayList<>();
-        Animals Animal1 = new Animals("Luffy", "Pirate", "Rubber", "Orphan");
-        AnimalsList.add(Animal1);
-        // Act
-        menuService.editAnimal(AnimalsList);
-        // Assert
-        assertThat(outputStream.toString(),containsString("Animal name is now set to: Zoro the swordsman"));
-        assertThat(outputStream.toString(),containsString("Animal species is now set to: 123"));
-        assertThat(outputStream.toString(),containsString("Animal breed is now set to: Rubber"));
-        assertThat(outputStream.toString(),containsString("Animal description is: Captain"));
+        assertThat(outputStream.toString(),containsString("Sorry, that is not a valid input. Please try again."));
+        assertThat(outputStream.toString(),containsString("Sorry, that is not a valid input. Please try again."));
+        assertThat(AnimalsList.get(0).getName(),equalTo("Zoro the swordsman"));
+        assertThat(AnimalsList.get(0).getSpecies(),equalTo("123"));
+        assertThat(AnimalsList.get(0).getBreed(),equalTo("Rubber"));
+        assertThat(AnimalsList.get(0).getDescription(),equalTo("Captain"));
     }
 
     @Test
@@ -459,4 +442,21 @@ public class MenuServiceTest {
     }
 
 
+    @Test
+    /**
+     * Given a main menu
+     * When the exit method is prompted and confirmed yes
+     * Then the program gives exit message
+     */
+    public void exitMethodYesThenExit(){
+        // Arrange
+        Scanner scanner = new Scanner("Y");
+        MenuService menuService = new MenuService(scanner);
+        // Act
+        menuService.exitAnimal();
+        // Assert
+        assertThat(outputStream.toString(),containsString("--Exit Animal Shelter--"));
+        assertThat(outputStream.toString(),containsString("Are you sure you want to leave so soon? (Y/N)"));
+        assertThat(outputStream.toString(),containsString("Good bye! Hope to see you again soon!"));
+    }
 }

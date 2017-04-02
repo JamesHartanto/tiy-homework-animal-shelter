@@ -37,6 +37,7 @@ public class MenuService {
 
     // Listing animals #1
     public void listAnimals(ArrayList<Animals> AnimalsList) {
+        System.out.println("--List Animals--");
         if (AnimalsList.isEmpty()){
             System.out.println("All the animals have a home! " +
                     "There is currently no animal living in the shelter!");
@@ -55,7 +56,7 @@ public class MenuService {
 
     // Creating an animal #2
     public Animals createAnAnimal() {
-        System.out.println("---Create an Animal---\nPlease answer the following questions:");
+        System.out.println("--Create an Animal--\nPlease answer the following questions:");
 
         // Animal name
         String name = promptForString("What is the animal's name?");
@@ -74,35 +75,38 @@ public class MenuService {
         System.out.println("Description: " + description);
 
         // Creating the animal
-        Animals Animal = new Animals(name,species,breed,description);
-        return Animal;
+        return new Animals(name,species,breed,description);
     }
 
     // Viewing a particular animal #3
     public void viewAnimal(ArrayList<Animals> AnimalsList) {
         System.out.println("--View an Animal--");
-        System.out.println("What is the numeric ID of the animal you want to view?");
+        if (AnimalsList.size() == 0) {
+            System.out.println("There are no animals to view!");
+        } else {
+            System.out.println("What is the numeric ID of the animal you want to view?");
 
-        // Creating variable to store user input
-        int input = 0;
+            // Creating variable to store user input
+            int input = 0;
 
-        // Checks if user input is an integer
-        if (scanner.hasNextInt()){
-            input = scanner.nextInt();
+            // Checks if user input is an integer
+            if (scanner.hasNextInt()) {
+                input = scanner.nextInt();
 
-            // Checks to see if integer is in the list
-            if (input > AnimalsList.size() || input < 1){
-                System.out.println(input + " is not part of the list! Please try again!");
-                viewAnimal(AnimalsList);
+                // Checks to see if integer is in the list
+                if (input > AnimalsList.size() || input < 1) {
+                    System.out.println(input + " is not part of the list! Please try again!");
+                    viewAnimal(AnimalsList);
+
+                } else {
+                    System.out.println(AnimalsList.get(input - 1));
+                }
 
             } else {
-                System.out.println(AnimalsList.get(input-1));
+                String badInput = scanner.nextLine();
+                System.out.println("Error: Invalid input! " + badInput + " is not an integer!");
+                viewAnimal(AnimalsList);
             }
-
-        } else {
-            String badInput = scanner.nextLine();
-            System.out.println("Error: Invalid input! " + badInput + " is not an integer!");
-            viewAnimal(AnimalsList);
         }
     }
 
@@ -118,7 +122,7 @@ public class MenuService {
 
             // Checks if user input is an integer - needed to use Integer.parseInt so test can read next line properly
             String input = scanner.nextLine();
-            while (isInteger(input) == false || Integer.parseInt(input) > AnimalsList.size() ||
+            while (!isInteger(input) || Integer.parseInt(input) > AnimalsList.size() ||
                     Integer.parseInt(input) < 1) {
                 System.out.println("Sorry, that is not a valid input. Please try again.\n");
                 input = scanner.nextLine();
@@ -189,7 +193,7 @@ public class MenuService {
                 } else {
                     // Confirmation of deletion
                     System.out.println("Are you sure you want to delete " + AnimalsList.get(input-1) + "? (Y/N)");
-                    if (deleteQuitConfirmation() == true){
+                    if (deleteQuitConfirmation()){
                         AnimalsList.remove(input-1);
                         System.out.println("An animal has been deleted!");
                     } else {
@@ -202,6 +206,20 @@ public class MenuService {
                 System.out.println("Error: Invalid input! " + badInput + " is not an integer!");
                 deleteAnimal(AnimalsList);
             }
+        }
+    }
+
+
+    // Exit program
+    public boolean exitAnimal() {
+        System.out.println("--Exit Animal Shelter--");
+        System.out.println("Are you sure you want to leave so soon? (Y/N)");
+        if (deleteQuitConfirmation()){
+            System.out.println("Good bye! Hope to see you again soon!");
+            return true;
+        } else{
+            System.out.println("Welcome back!");
+            return false;
         }
     }
 
@@ -220,7 +238,7 @@ public class MenuService {
     }
 
     // Checking if input is integer, returns true or false
-    public static boolean isInteger(String str) {
+    private static boolean isInteger(String str) {
         try {
             int d = Integer.parseInt(str);
         }
@@ -235,11 +253,7 @@ public class MenuService {
         String choice = scanner.nextLine();
         if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y") ||
                 choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
-            if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
-                return true;
-            } else {
-                return false;
-            }
+            return choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y");
         } else{
             System.out.println("Sorry that is an invalid input! Please try again.");
             return deleteQuitConfirmation();
