@@ -354,7 +354,7 @@ public class MenuServiceTest {
     @Test
     /**
      * Given a main menu with an animal
-     * When different inputs are given
+     * When different inputs are given for edit animal
      * Then appropriate messages are shown
      */
     public void InputsGivenThenAppropriateMessagesShown(){
@@ -370,6 +370,92 @@ public class MenuServiceTest {
         assertThat(outputStream.toString(),containsString("Animal species is now set to: 123"));
         assertThat(outputStream.toString(),containsString("Animal breed is now set to: Rubber"));
         assertThat(outputStream.toString(),containsString("Animal description is: Captain"));
+    }
+
+    @Test
+    /**
+     * Given a main menu
+     * When there is no animal in the list for editing
+     * Then it displayed error message and exits
+     */
+    public void noAnimalInListForEditingThenErrorMessageAndExit(){
+        // Arrange
+        Scanner scanner = new Scanner("1\n");
+        MenuService menuService = new MenuService(scanner);
+        ArrayList<Animals> AnimalList = new ArrayList<Animals>();
+        // Act
+        menuService.editAnimal(AnimalList);
+        // Assert
+        assertThat(outputStream.toString(),containsString("There are no animals! Create an animal first!"));
+    }
+
+
+    @Test
+    /**
+     * Given a main menu with no animals
+     * When the delete method is prompted
+     * Then a delete message is shown
+     */
+    public void deleteMethodPromptedThenDeleteMessageShown(){
+        // Arrange
+        Scanner scanner = new Scanner("1");
+        MenuService menuService = new MenuService(scanner);
+        ArrayList<Animals> AnimalList = new ArrayList<>();
+        // Act
+        menuService.deleteAnimal(AnimalList);
+        // Assert
+        assertThat(outputStream.toString(),containsString("--Delete an Animal--"));
+        assertThat(outputStream.toString(),containsString("There are no animals in the shelter to delete!"));
+    }
+
+    @Test
+    /**
+     * Given a main menu with three animals
+     * When the delete method is prompted to delete animal 2 and confirmed yes
+     * Then the list has two animals remaining
+     */
+    public void threeAnimalsDeleteToTwoRemaining(){
+        // Arrange
+        Scanner scanner = new Scanner("2\nYes");
+        MenuService menuService = new MenuService(scanner);
+        ArrayList<Animals> AnimalList = new ArrayList<>();
+        Animals Animal1 = new Animals("Name1", "Pirate", "Good guy", "Has boat");
+        Animals Animal2 = new Animals("Name2", "Zombie", "", "Can't swim");
+        Animals Animal3 = new Animals("Name3", "Navy", "Fireman", "Battleship");
+        AnimalList.add(Animal1);
+        AnimalList.add(Animal2);
+        AnimalList.add(Animal3);
+        // Act
+        menuService.deleteAnimal(AnimalList);
+        // Assert
+        assertThat(outputStream.toString(),containsString("Are you sure you want to delete"));
+        assertThat(outputStream.toString(),containsString("An animal has been deleted"));
+        assertThat(2,equalTo(AnimalList.size()));
+    }
+
+    @Test
+    /**
+     * Given a main menu with three animals
+     * When the delete method is prompted to delete animal 2 and confirmed no
+     * Then the list still has three animals remaining
+     */
+    public void threeAnimalsDeleteStillThreeRemaining(){
+        // Arrange
+        Scanner scanner = new Scanner("2\nNo");
+        MenuService menuService = new MenuService(scanner);
+        ArrayList<Animals> AnimalList = new ArrayList<>();
+        Animals Animal1 = new Animals("Name1", "Pirate", "Good guy", "Has boat");
+        Animals Animal2 = new Animals("Name2", "Zombie", "", "Can't swim");
+        Animals Animal3 = new Animals("Name3", "Navy", "Fireman", "Battleship");
+        AnimalList.add(Animal1);
+        AnimalList.add(Animal2);
+        AnimalList.add(Animal3);
+        // Act
+        menuService.deleteAnimal(AnimalList);
+        // Assert
+        assertThat(outputStream.toString(),containsString("Are you sure you want to delete"));
+        assertThat(outputStream.toString(),containsString("The animal is safe!"));
+        assertThat(3,equalTo(AnimalList.size()));
     }
 
 
