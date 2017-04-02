@@ -16,7 +16,7 @@ public class Main {
             if (selection==1){
                 menuService.listAnimals(AnimalList);
             } else if (selection==2){
-                menuService.createAnAnimal();
+                AnimalList.add(menuService.createAnAnimal());
             } else if (selection==3){
                 menuService.viewAnimal(AnimalList);
             } else if (selection==4){
