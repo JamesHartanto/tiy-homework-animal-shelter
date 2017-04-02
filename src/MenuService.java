@@ -124,40 +124,45 @@ public class MenuService {
         System.out.println("Please answer the following questions. Press enter to keep the current values.");
 
         // name
-        System.out.println("Animal name [" + AnimalsList.get(userInt-1).getName() + "]: ");
+        System.out.print("Animal name [" + AnimalsList.get(userInt-1).getName() + "]: ");
         String name = scanner.nextLine().trim();
         // only changes value if there is a non-empty entry
         if (!name.isEmpty()){
             AnimalsList.get(userInt-1).setName(name);
-            System.out.println("Animal name is now set to: "+ name);
         }
+        System.out.println("Animal name is now set to: "+ AnimalsList.get(userInt-1).getName());
 
         // species
-        System.out.println("Animal species [" + AnimalsList.get(userInt-1).getSpecies() + "]: ");
+        System.out.print("Animal species [" + AnimalsList.get(userInt-1).getSpecies() + "]: ");
         String species = scanner.nextLine().trim();
         if (!species.isEmpty()){
             AnimalsList.get(userInt-1).setSpecies(species);
-            System.out.println("Animal species is now set to: " + species);
         }
+        System.out.println("Animal species is now set to: " + AnimalsList.get(userInt-1).getSpecies());
 
         // breed - no trim because it can be edited to nothing
-        System.out.println("Animal breed (optional) [" + AnimalsList.get(userInt-1).getBreed() + "]: ");
-        String breed = scanner.nextLine();
+        System.out.print("Animal breed (optional) [" + AnimalsList.get(userInt-1).getBreed() + "]: ");
+        String breed = scanner.nextLine().trim();
         if (!breed.isEmpty()){
             AnimalsList.get(userInt-1).setBreed(breed);
-            System.out.println("Animal breed is now set to: " + breed);
         }
+        System.out.println("Animal breed is now set to: " + AnimalsList.get(userInt-1).getBreed());
 
         // description
-        System.out.println("Animal description [" + AnimalsList.get(userInt-1).getDescription() + "]: ");
+        System.out.print("Animal description [" + AnimalsList.get(userInt-1).getDescription() + "]: ");
         String description = scanner.nextLine().trim();
         if (!description.isEmpty()){
             AnimalsList.get(userInt-1).setDescription(description);
-            System.out.println("Animal description is: " + description);
         }
+        System.out.println("Animal description is: " + AnimalsList.get(userInt-1).getDescription());
 
+        // SUCCESS !!
         System.out.println("Animal has been successfully updated!");
     }
+
+
+    // Deleting an animal
+
 
 
     // USEFUL METHODS
@@ -172,7 +177,6 @@ public class MenuService {
             return input;
         }
     }
-
 
     // Checking if input is integer, returns true or false
     public static boolean isInteger(String str) {
