@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.sql.*;
 import java.util.ArrayList;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -75,7 +76,6 @@ public class AnimalRepositoryTest {
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
         Animals animal1 = new Animals("Bob","Dinosaur","T-rex","Short arms");
 
-// look up count method
         // Act
         animalRepository.saveAnimal(animal1);
         Statement stmt = conn.createStatement();
@@ -86,6 +86,26 @@ public class AnimalRepositoryTest {
         // Assert
         assertThat(3,equalTo(x));
     }
+
+    @Test
+    /**
+     * Given an Animal Repository with 2 animals
+     * When delete animal is invoked
+     * Then the database table only has 1 animal left
+     */
+    public void startWith2AnimalsAndDelete1() throws SQLException {
+        // Arrange
+        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
+
+        // Act
+        animalRepository.deleteAnimal(1);
+        int x = animalRepository.countAnimals();
+
+        // Assert
+        assertThat(x,equalTo(1));
+    }
+
+ 
 
     @After
     public void after() throws SQLException {

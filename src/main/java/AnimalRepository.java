@@ -24,18 +24,6 @@ public class AnimalRepository {
                "'animal.getDescription()')");
     }
 
-    //read animals by ID
-    public void readAnimalID(int id) throws SQLException {
-        Statement stmt = conn.createStatement();
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable WHERE id = "+ id);
-    }
-
-    //delete animals
-    public void deleteAnimal(int id) throws SQLException {
-        Statement stmt = conn.createStatement();
-        stmt.execute("DELETE FROM animaltable WHERE id = " + id);
-    }
-
     //counting animals in table
     public int countAnimals() throws SQLException {
         Statement stmt = conn.createStatement();
@@ -45,5 +33,18 @@ public class AnimalRepository {
             x=x+1;
         }
         return x;
+    }
+
+    //delete animals
+    public void deleteAnimal(int id) throws SQLException {
+        Statement stmt = conn.createStatement();
+        stmt.execute("DELETE FROM animaltable WHERE id = " + id);
+    }
+
+    //read animals by ID
+    public String readAnimalID(int id) throws SQLException {
+        Statement stmt = conn.createStatement();
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable WHERE id = "+ id);
+        return resultSet.toString();
     }
 }
