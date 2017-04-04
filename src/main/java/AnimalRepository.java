@@ -17,11 +17,11 @@ public class AnimalRepository {
     // sending data to database table
     public void saveAnimal(Animals animal) throws SQLException {
         Statement stmt = conn.createStatement();
-       stmt.execute("INSERT INTO animaltable(name,species,breed,description) " +
-               "VALUES (animal.getName(), " +
-               "animal.getSpecies(), " +
-               "animal.getBreed()," +
-               "animal.getDescription())");
+        stmt.execute("INSERT INTO animaltable(name,species,breed,description) " +
+               "VALUES ('animal.getName()', " +
+               "'animal.getSpecies()', " +
+               "'animal.getBreed()'," +
+               "'animal.getDescription()')");
     }
 
     //read animals by ID
@@ -34,6 +34,13 @@ public class AnimalRepository {
     public void deleteAnimal(int id) throws SQLException {
         Statement stmt = conn.createStatement();
         stmt.execute("DELETE FROM animaltable WHERE id = " + id);
+    }
+
+    //counting animals in table
+    public int countAnimals() throws SQLException {
+        Statement stmt = conn.createStatement();
+        ResultSet resultSet = stmt.executeQuery("SELECT count(id) FROM animaltable;");
+        return resultSet.getInt(1);
     }
 
 

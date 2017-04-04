@@ -89,8 +89,14 @@ public class AnimalRepositoryTest {
                     resultSet.getString("description"));
             animalsArrayList.add(animal);
         }
+//        int x = animalRepository.countAnimals();
+        ResultSet rs = stmt.executeQuery("SELECT count(id) FROM animaltable;");
+        int x = rs.getInt(1);
+
         // Assert
+
         assertThat(3,equalTo((animalsArrayList.size())));
+        assertThat(3,equalTo(x));
     }
 
     @After
