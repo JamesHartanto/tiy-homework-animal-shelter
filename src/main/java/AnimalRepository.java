@@ -39,9 +39,11 @@ public class AnimalRepository {
     //counting animals in table
     public int countAnimals() throws SQLException {
         Statement stmt = conn.createStatement();
-        ResultSet resultSet = stmt.executeQuery("SELECT count(id) FROM animaltable;");
-        return resultSet.getInt(1);
+        int x = 0;
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable");
+        while (resultSet.next()){
+            x=x+1;
+        }
+        return x;
     }
-
-
 }

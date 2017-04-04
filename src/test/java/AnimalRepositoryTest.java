@@ -60,6 +60,7 @@ public class AnimalRepositoryTest {
         }
         // Assert
         assertThat(animalsArrayList.size(),equalTo(2));
+        assertThat(animalsArrayList.get(0).getName(),equalTo("name1"));
     }
 
 
@@ -80,22 +81,9 @@ public class AnimalRepositoryTest {
         Statement stmt = conn.createStatement();
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable");
 
-        // Creating an arraylist of Animals to store the outputs
-        ArrayList<Animals> animalsArrayList = new ArrayList<>();
-        while (resultSet.next()){
-            Animals animal = new Animals(resultSet.getString("name"),
-                    resultSet.getString("species"),
-                    resultSet.getString("breed"),
-                    resultSet.getString("description"));
-            animalsArrayList.add(animal);
-        }
-//        int x = animalRepository.countAnimals();
-        ResultSet rs = stmt.executeQuery("SELECT count(id) FROM animaltable;");
-        int x = rs.getInt(1);
+        int x = animalRepository.countAnimals();
 
         // Assert
-
-        assertThat(3,equalTo((animalsArrayList.size())));
         assertThat(3,equalTo(x));
     }
 
