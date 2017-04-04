@@ -6,6 +6,8 @@ import java.util.Scanner;
  * Created by JamesHartanto on 4/2/17.
  */
 public class Main {
+    public static Scanner scanner;
+
     public static void main(String[] args) throws SQLException {
         String jdbcUrl = "jdbc:postgresql://localhost/animalshelter";
         AnimalRepository repository = new AnimalRepository(jdbcUrl);

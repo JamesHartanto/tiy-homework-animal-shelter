@@ -13,10 +13,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class AnimalRepositoryTest {
 
     private Connection conn;
-    String jdbcUrl = "jdbc:postgresql://localhost/animalshelter";
-    AnimalRepositoryTest(String jdbcUrl) throws SQLException {
-        this.conn = DriverManager.getConnection(jdbcUrl);
-    }
+    String jdbcUrl = "jdbc:h2:mem:animallist";
 
     @Before
     public void before() throws SQLException {
