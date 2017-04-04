@@ -11,7 +11,6 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         String jdbcUrl = "jdbc:postgresql://localhost/animalshelter";
         AnimalRepository repository = new AnimalRepository(jdbcUrl);
-        AnimalService service = new AnimalService(repository);
 
 //        MenuService menuService = new MenuService(scanner);
 //        while(true){

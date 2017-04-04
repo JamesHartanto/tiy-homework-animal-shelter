@@ -1,3 +1,5 @@
+import com.sun.xml.internal.bind.XmlAccessorFactory;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -15,8 +17,8 @@ public class AnimalRepository {
     // sending data to database table
     public void saveAnimal(Animals animal) throws SQLException {
         Statement stmt = conn.createStatement();
-       stmt.execute("INSERT INTO animalList(name,species,breed,description) " +
-                "VALUE (animal.getName(), " +
+       stmt.execute("INSERT INTO animaltable(name,species,breed,description) " +
+               "VALUES (animal.getName(), " +
                "animal.getSpecies(), " +
                "animal.getBreed()," +
                "animal.getDescription())");
@@ -25,12 +27,14 @@ public class AnimalRepository {
     //read animals by ID
     public void readAnimalID(int id) throws SQLException {
         Statement stmt = conn.createStatement();
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animallist WHERE id = "+ id);
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable WHERE id = "+ id);
     }
 
     //delete animals
     public void deleteAnimal(int id) throws SQLException {
         Statement stmt = conn.createStatement();
-        stmt.execute("DELETE FROM animallist WHERE id = " + id);
+        stmt.execute("DELETE FROM animaltable WHERE id = " + id);
     }
+
+
 }
