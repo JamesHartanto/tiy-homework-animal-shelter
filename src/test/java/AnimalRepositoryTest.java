@@ -43,22 +43,17 @@ public class AnimalRepositoryTest {
     @Test
     /**
      * Given an Animal Repository with 2 animals
+     * When the list method is invoked
      * Then their name, species, breed, and description can get extracted
      */
     // need to use next method to go through data
     public void animalRepositoryWith2AnimalsGetAnimalDetails() throws SQLException {
         // Arrange
         Statement stmt = conn.createStatement();
+        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable");
         // Creating an arraylist of Animals to store the outputs
-        ArrayList<Animals> animalsArrayList = new ArrayList<>();
-        while (resultSet.next()){
-            Animals animal = new Animals(resultSet.getString("name"),
-                    resultSet.getString("species"),
-                    resultSet.getString("breed"),
-                    resultSet.getString("description"));
-            animalsArrayList.add(animal);
-        }
+        ArrayList<Animals> animalsArrayList = animalRepository.listAnimals();
         // Assert
         assertThat(animalsArrayList.size(),equalTo(2));
         assertThat(animalsArrayList.get(0).getName(),equalTo("name1"));
@@ -139,6 +134,25 @@ public class AnimalRepositoryTest {
 
         // Assert
         assertThat(animals.getName(),equalTo("Yuen"));
+    }
+
+    @Test
+    /**
+     * Given an animal repository with 2 animals
+     * When the edit animal method is invoked with empty inputs
+     * Then the animal is edited
+     */
+    public void animalRepositoryWith2AnimalsAndEditAnimalWithEmptyInputs() throws SQLException {
+        // Arrange
+        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
+
+        // Act
+        Animals animal = new Animals("","Hsi","Got","Scared");
+        animalRepository.editAnimalID(1, animal);
+        Animals animals = animalRepository.readAnimalID(1);
+
+        // Assert
+        assertThat(animals.getName(),equalTo("name1"));
     }
 
     @After

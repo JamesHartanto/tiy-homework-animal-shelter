@@ -14,7 +14,7 @@ public class AnimalRepository {
         this.conn = DriverManager.getConnection(jdbcUrl);
     }
 
-    // sending data to database table
+    // sending data to database table #2
     public void saveAnimal(Animals animal) throws SQLException {
         Statement stmt = conn.createStatement();
         stmt.execute("INSERT INTO animaltable(name,species,breed,description) " +
@@ -35,13 +35,13 @@ public class AnimalRepository {
         return x;
     }
 
-    //delete animals
+    //delete animals #5
     public void deleteAnimal(int id) throws SQLException {
         Statement stmt = conn.createStatement();
         stmt.execute("DELETE FROM animaltable WHERE id = " + id);
     }
 
-    //read animals by ID
+    //read animals by ID #3
     public Animals readAnimalID(int id) throws SQLException {
         Statement stmt = conn.createStatement();
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable WHERE id = "+ id);
@@ -53,14 +53,45 @@ public class AnimalRepository {
         return animal;
     }
 
-    // edit animal by ID
+    // edit animal by ID #4
     public void editAnimalID(int id, Animals animal) throws SQLException {
         Statement stmt = conn.createStatement();
+        Animals animalInDatabase = readAnimalID(id);
+        // Checking if anything is empty
+        if (animal.getName().isEmpty()){
+            animal.setName(animalInDatabase.getName());
+        }
+        if (animal.getSpecies().isEmpty()){
+            animal.setSpecies(animalInDatabase.getSpecies());
+        }
+        if (animal.getBreed().isEmpty()){
+            animal.setBreed(animalInDatabase.getBreed());
+        }
+        if (animal.getDescription().isEmpty()){
+            animal.setDescription(animalInDatabase.getDescription());
+        }
+        // Updating the values
         stmt.execute("UPDATE animaltable SET " +
                 "name = '" + animal.getName() + "'," +
                 "species = '" + animal.getSpecies() + "'," +
                 "breed = '" + animal.getBreed() + "'," +
                 "description = '" + animal.getDescription() + "'" +
                         "WHERE id = " + id);
+    }
+
+    // list animals
+    public ArrayList<Animals> listAnimals() throws SQLException {
+        ArrayList<Animals> animalsArrayList = new ArrayList<>();
+        Statement stmt = conn.createStatement();
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable");
+
+        while (resultSet.next()){
+            Animals animal = new Animals(resultSet.getString("name"),
+                    resultSet.getString("species"),
+                    resultSet.getString("breed"),
+                    resultSet.getString("description"));
+            animalsArrayList.add(animal);
+        }
+        return animalsArrayList;
     }
 }
