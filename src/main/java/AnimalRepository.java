@@ -21,10 +21,14 @@ public class AnimalRepository {
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable");
 
         while (resultSet.next()){
-            Animals animal = new Animals(resultSet.getString("name"),
+            System.out.print("ID:" + resultSet.getInt("id") + ") ");
+            Animals animal = new Animals(
+                    resultSet.getString("name"),
                     resultSet.getString("species"),
                     resultSet.getString("breed"),
                     resultSet.getString("description"));
+            System.out.printf("NAME: %s   SPECIES: %s   BREED: %s   DESCRIPTION: %s\n",
+                    animal.getName(),animal.getSpecies(),animal.getBreed(),animal.getDescription());
             animalsArrayList.add(animal);
         }
 
@@ -32,7 +36,6 @@ public class AnimalRepository {
             System.out.println("All the animals have a home! " +
                     "There is currently no animal living in the shelter!");
         }
-
         return animalsArrayList;
     }
 
@@ -40,7 +43,7 @@ public class AnimalRepository {
     // sending data to database table #2
     public void saveAnimal(Animals animal) throws SQLException {
         // before
-        int before = listAnimals().size();
+        int before = countAnimals();
         Statement stmt = conn.createStatement();
         stmt.execute("INSERT INTO animaltable(name,species,breed,description) " +
                "VALUES ('" + animal.getName() + "', '" +
@@ -48,7 +51,7 @@ public class AnimalRepository {
                animal.getBreed()+"','" +
                animal.getDescription()+"')");
         // success?
-        if (listAnimals().size()>before){
+        if (countAnimals()>before){
             System.out.println("An animal has successfully been added to the database!");
         } else {
             System.out.println("Nothing happened");

@@ -180,6 +180,7 @@ public class AnimalRepositoryTest {
         assertThat(anmal3.getName(),equalTo("name1"));
     }
 
+
     @After
     public void after() throws SQLException {
         Statement stmt = conn.createStatement();

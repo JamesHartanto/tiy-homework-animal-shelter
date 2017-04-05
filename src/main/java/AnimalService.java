@@ -22,7 +22,8 @@ public class AnimalService {
                 "3) View animal details\n" +
                 "4) Edit an animal\n" +
                 "5) Delete an animal\n" +
-                "6) Quit");
+                "6) Quit\n" +
+                "Please choose an option:");
         int input = 0;
         if (scanner.hasNextInt()){
             input = scanner.nextInt();
@@ -68,7 +69,6 @@ public class AnimalService {
 
     // Viewing a particular animal #3
     public void viewAnimal() throws SQLException {
-//    public void viewAnimal(ArrayList<Animals> AnimalsList) {
         System.out.println("--View an Animal--");
         if (animalRepository.countAnimals() == 0) {
             System.out.println("There are no animals to view!");
@@ -88,12 +88,13 @@ public class AnimalService {
                     viewAnimal();
 
                 } else {
-//                    System.out.println(AnimalsList.get(input - 1));
                     Animals animalToView = animalRepository.readAnimalID(input);
                     System.out.printf("NAME: %-10s \n " +
                             "SPECIES: %-10s \n " +
                             "BREED: %-10s \n " +
-                            "DESCRIPTION: %-10s");
+                            "DESCRIPTION: %-10s\n",
+                            animalToView.getName(),animalToView.getSpecies(),animalToView.getBreed(),
+                            animalToView.getDescription());
                 }
 
             } else {

@@ -17,7 +17,6 @@ public class Main {
             int selection = animalService.promptForMainMenu();
 
             if (selection==1){
-//                menuService.listAnimals(AnimalList);
                 animalrepository.listAnimals();
             } else if (selection==2){
                 animalService.createAnAnimal();
