@@ -20,7 +20,7 @@ public class AnimalRepository {
         Statement stmt = conn.createStatement();
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable");
 
-        while (resultSet.next()) {
+        while (resultSet.next()){
             Animals animal = new Animals(resultSet.getString("name"),
                     resultSet.getString("species"),
                     resultSet.getString("breed"),
@@ -28,16 +28,11 @@ public class AnimalRepository {
             animalsArrayList.add(animal);
         }
 
-        if (animalsArrayList.size() == 0) {
+        if (animalsArrayList.size()==0){
             System.out.println("All the animals have a home! " +
                     "There is currently no animal living in the shelter!");
-        } else {
-            for (int x = 0; x < animalsArrayList.size(); x = x + 1) {
-                String name = animalsArrayList.get(x).getName();
-                String species = animalsArrayList.get(x).getSpecies();
-                System.out.printf("%-5s) %-15s %-15s\n", x + 1, name, species);
-            }
         }
+
         return animalsArrayList;
     }
 
@@ -97,7 +92,7 @@ public class AnimalRepository {
                 "species = '" + animal.getSpecies() + "'," +
                 "breed = '" + animal.getBreed() + "'," +
                 "description = '" + animal.getDescription() + "'" +
-                "WHERE id = " + id);
+                        "WHERE id = " + id);
     }
 
 
@@ -107,10 +102,6 @@ public class AnimalRepository {
         stmt.execute("DELETE FROM animaltable WHERE id = " + id);
     }
 
-
-
-
-    // OTHER USEFUL METHODS
     //counting animals in table
     public int countAnimals() throws SQLException {
         Statement stmt = conn.createStatement();

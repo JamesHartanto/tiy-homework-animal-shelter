@@ -7,29 +7,28 @@ import java.util.Scanner;
  */
 public class Main {
     public static Scanner scanner = new Scanner(System.in);
-//    public static ArrayList<Animals> AnimalList = new ArrayList<>();
 
     public static void main(String[] args) throws SQLException {
         String jdbcUrl = "jdbc:postgresql://localhost/animalshelter";
         AnimalRepository animalrepository = new AnimalRepository(jdbcUrl);
 
-        MenuService menuService = new MenuService(scanner);
+        AnimalService animalService = new AnimalService(scanner);
         while(true){
-            int selection = menuService.promptForMainMenu();
+            int selection = animalService.promptForMainMenu();
 
             if (selection==1){
 //                menuService.listAnimals(AnimalList);
                 animalrepository.listAnimals();
             } else if (selection==2){
-                menuService.createAnAnimal();
+                animalService.createAnAnimal();
             } else if (selection==3){
-                menuService.viewAnimal(AnimalList);
+                animalService.viewAnimal();
             } else if (selection==4){
-                menuService.editAnimal(AnimalList);
+                animalService.editAnimal();
             } else if (selection==5){
-                menuService.deleteAnimal(AnimalList);
+                animalService.deleteAnimal();
             } else if (selection==6){
-                if (menuService.exitAnimal()){
+                if (animalService.exitAnimal()){
                     break;
                 };
             }
