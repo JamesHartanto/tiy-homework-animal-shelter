@@ -105,7 +105,22 @@ public class AnimalRepositoryTest {
         assertThat(x,equalTo(1));
     }
 
- 
+    @Test
+    /**
+     * Given an Animal Repository with 2 animals
+     * When view animal is invoked
+     * Then the animal with the particular id is shown
+     */
+    public void startWith2AnimalsAndView1() throws SQLException {
+        // Arrange
+        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
+
+        // Act
+        Animals animals = animalRepository.readAnimalID(1);
+
+        // Assert
+        assertThat(animals.getName(),containsString("name1"));
+    }
 
     @After
     public void after() throws SQLException {

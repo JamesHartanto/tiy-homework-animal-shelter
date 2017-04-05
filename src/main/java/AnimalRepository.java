@@ -42,9 +42,14 @@ public class AnimalRepository {
     }
 
     //read animals by ID
-    public String readAnimalID(int id) throws SQLException {
+    public Animals readAnimalID(int id) throws SQLException {
         Statement stmt = conn.createStatement();
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable WHERE id = "+ id);
-        return resultSet.toString();
+        resultSet.next();
+        Animals animal = new Animals(resultSet.getString("name"),
+                resultSet.getString("species"),
+                resultSet.getString("breed"),
+                resultSet.getString("description"));
+        return animal;
     }
 }
