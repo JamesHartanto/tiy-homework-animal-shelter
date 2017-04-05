@@ -52,4 +52,15 @@ public class AnimalRepository {
                 resultSet.getString("description"));
         return animal;
     }
+
+    // edit animal by ID
+    public void editAnimalID(int id, Animals animal) throws SQLException {
+        Statement stmt = conn.createStatement();
+        stmt.execute("UPDATE animaltable SET " +
+                "name = '" + animal.getName() + "'," +
+                "species = '" + animal.getSpecies() + "'," +
+                "breed = '" + animal.getBreed() + "'," +
+                "description = '" + animal.getDescription() + "'" +
+                        "WHERE id = " + id);
+    }
 }

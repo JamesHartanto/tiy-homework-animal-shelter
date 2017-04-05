@@ -122,6 +122,25 @@ public class AnimalRepositoryTest {
         assertThat(animals.getName(),containsString("name1"));
     }
 
+    @Test
+    /**
+     * Given an animal repository with 2 animals
+     * When the edit animal method is invoked
+     * Then the animal is edited
+     */
+    public void animalRepositoryWith2AnimalsAndEditAnimal() throws SQLException {
+        // Arrange
+        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
+
+        // Act
+        Animals animal = new Animals("Yuen","Hsi","Got","Scared");
+        animalRepository.editAnimalID(1, animal);
+        Animals animals = animalRepository.readAnimalID(1);
+
+        // Assert
+        assertThat(animals.getName(),equalTo("Yuen"));
+    }
+
     @After
     public void after() throws SQLException {
         Statement stmt = conn.createStatement();
