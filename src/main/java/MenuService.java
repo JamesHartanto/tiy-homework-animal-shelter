@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -6,9 +7,12 @@ import java.util.Scanner;
  */
 public class MenuService {
     Scanner scanner;
-    public MenuService(Scanner scanner) {
+    public MenuService(Scanner scanner) throws SQLException {
         this.scanner = scanner;
     }
+
+    String jdbcUrl = "jdbc:postgresql://localhost/animalshelter";
+    AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
 
     // Main menu
     public int promptForMainMenu() {
@@ -35,27 +39,26 @@ public class MenuService {
         }
     }
 
-    // Listing animals #1
-    public void listAnimals(ArrayList<Animals> AnimalsList) {
-        System.out.println("--List Animals--");
-        if (AnimalsList.isEmpty()){
-            System.out.println("All the animals have a home! " +
-                    "There is currently no animal living in the shelter!");
-        } else {
-            System.out.println("--- ANIMALS IN SHELTER ---");
-            String name = "";
-            String species = "";
-            for (int x = 0; x < AnimalsList.size(); x = x + 1){
-                name = AnimalsList.get(x).getName();
-                species = AnimalsList.get(x).getSpecies();
-                System.out.printf("%-5s) %-15s %-15s\n", x + 1, name, species);
-            }
-        }
-
-    }
+    // Listing animals #1 NOT NECESSARY SINCE USING REPOSITORY METHOD
+//    public void listAnimals(ArrayList<Animals> AnimalsList) throws SQLException {
+//        System.out.println("--List Animals--");
+//        if (AnimalsList.isEmpty()){
+//            System.out.println("All the animals have a home! " +
+//                    "There is currently no animal living in the shelter!");
+//        } else {
+//            System.out.println("--- ANIMALS IN SHELTER ---");
+//            String name = "";
+//            String species = "";
+//            for (int x = 0; x < AnimalsList.size(); x = x + 1){
+//                name = AnimalsList.get(x).getName();
+//                species = AnimalsList.get(x).getSpecies();
+//                System.out.printf("%-5s) %-15s %-15s\n", x + 1, name, species);
+//            }
+//        }
+//    }
 
     // Creating an animal #2
-    public Animals createAnAnimal() {
+    public void createAnAnimal() throws SQLException {
         System.out.println("--Create an Animal--\nPlease answer the following questions:");
 
         // Animal name
@@ -75,7 +78,10 @@ public class MenuService {
         System.out.println("Description: " + description);
 
         // Creating the animal
-        return new Animals(name,species,breed,description);
+//        return new Animals(name,species,breed,description);
+        Animals animalToSave = new Animals(name,species,breed,description);
+        animalRepository.saveAnimal(animalToSave);
+        System.out.println("Animal saved to database!");
     }
 
     // Viewing a particular animal #3
@@ -100,6 +106,7 @@ public class MenuService {
 
                 } else {
                     System.out.println(AnimalsList.get(input - 1));
+                    // animal repository listing animal ??
                 }
 
             } else {

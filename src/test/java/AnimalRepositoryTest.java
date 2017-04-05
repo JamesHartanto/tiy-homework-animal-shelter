@@ -115,6 +115,7 @@ public class AnimalRepositoryTest {
 
         // Assert
         assertThat(animals.getName(),containsString("name1"));
+        assertThat(animals.getDescription(),containsString("description1"));
     }
 
     @Test
@@ -153,6 +154,30 @@ public class AnimalRepositoryTest {
 
         // Assert
         assertThat(animals.getName(),equalTo("name1"));
+    }
+
+    @Test
+    /**
+     * Given an animal repository with 3 animals (2 with same name)
+     * When a filter method is invoked
+     * Then the animals received are filtered accordingly by the name
+     */
+    public void filterAnimalbySomething() throws SQLException {
+        // Arrange
+        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
+        Animals animalToAdd = new Animals("name1","lol","haha","texting");
+        animalRepository.saveAnimal(animalToAdd);
+
+        // Act
+        ArrayList<Animals> filteredList = animalRepository.filterBy("name","name1");
+        Animals anmal1 = animalRepository.readAnimalID(1);
+        Animals anmal2 = animalRepository.readAnimalID(2);
+        Animals anmal3 = animalRepository.readAnimalID(3);
+
+        // Assert
+        assertThat(anmal1.getName(),equalTo("name1"));
+        assertThat(anmal2.getName(),equalTo("name2"));
+        assertThat(anmal3.getName(),equalTo("name1"));
     }
 
     @After

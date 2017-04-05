@@ -14,32 +14,52 @@ public class AnimalRepository {
         this.conn = DriverManager.getConnection(jdbcUrl);
     }
 
+    // list animals #1
+    public ArrayList<Animals> listAnimals() throws SQLException {
+        ArrayList<Animals> animalsArrayList = new ArrayList<>();
+        Statement stmt = conn.createStatement();
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable");
+
+        while (resultSet.next()) {
+            Animals animal = new Animals(resultSet.getString("name"),
+                    resultSet.getString("species"),
+                    resultSet.getString("breed"),
+                    resultSet.getString("description"));
+            animalsArrayList.add(animal);
+        }
+
+        if (animalsArrayList.size() == 0) {
+            System.out.println("All the animals have a home! " +
+                    "There is currently no animal living in the shelter!");
+        } else {
+            for (int x = 0; x < animalsArrayList.size(); x = x + 1) {
+                String name = animalsArrayList.get(x).getName();
+                String species = animalsArrayList.get(x).getSpecies();
+                System.out.printf("%-5s) %-15s %-15s\n", x + 1, name, species);
+            }
+        }
+        return animalsArrayList;
+    }
+
+
     // sending data to database table #2
     public void saveAnimal(Animals animal) throws SQLException {
+        // before
+        int before = listAnimals().size();
         Statement stmt = conn.createStatement();
         stmt.execute("INSERT INTO animaltable(name,species,breed,description) " +
-               "VALUES ('animal.getName()', " +
-               "'animal.getSpecies()', " +
-               "'animal.getBreed()'," +
-               "'animal.getDescription()')");
-    }
-
-    //counting animals in table
-    public int countAnimals() throws SQLException {
-        Statement stmt = conn.createStatement();
-        int x = 0;
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable");
-        while (resultSet.next()){
-            x=x+1;
+               "VALUES ('" + animal.getName() + "', '" +
+               animal.getSpecies()+"', '" +
+               animal.getBreed()+"','" +
+               animal.getDescription()+"')");
+        // success?
+        if (listAnimals().size()>before){
+            System.out.println("An animal has successfully been added to the database!");
+        } else {
+            System.out.println("Nothing happened");
         }
-        return x;
     }
 
-    //delete animals #5
-    public void deleteAnimal(int id) throws SQLException {
-        Statement stmt = conn.createStatement();
-        stmt.execute("DELETE FROM animaltable WHERE id = " + id);
-    }
 
     //read animals by ID #3
     public Animals readAnimalID(int id) throws SQLException {
@@ -52,6 +72,7 @@ public class AnimalRepository {
                 resultSet.getString("description"));
         return animal;
     }
+
 
     // edit animal by ID #4
     public void editAnimalID(int id, Animals animal) throws SQLException {
@@ -76,14 +97,36 @@ public class AnimalRepository {
                 "species = '" + animal.getSpecies() + "'," +
                 "breed = '" + animal.getBreed() + "'," +
                 "description = '" + animal.getDescription() + "'" +
-                        "WHERE id = " + id);
+                "WHERE id = " + id);
     }
 
-    // list animals
-    public ArrayList<Animals> listAnimals() throws SQLException {
+
+    //delete animals #5
+    public void deleteAnimal(int id) throws SQLException {
+        Statement stmt = conn.createStatement();
+        stmt.execute("DELETE FROM animaltable WHERE id = " + id);
+    }
+
+
+
+
+    // OTHER USEFUL METHODS
+    //counting animals in table
+    public int countAnimals() throws SQLException {
+        Statement stmt = conn.createStatement();
+        int x = 0;
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable");
+        while (resultSet.next()){
+            x=x+1;
+        }
+        return x;
+    }
+
+
+    public ArrayList<Animals> filterBy(String tableColumn, String value) throws SQLException {
         ArrayList<Animals> animalsArrayList = new ArrayList<>();
         Statement stmt = conn.createStatement();
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable");
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable WHERE '" + tableColumn + "' = '" + value + "'");
 
         while (resultSet.next()){
             Animals animal = new Animals(resultSet.getString("name"),

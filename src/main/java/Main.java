@@ -6,21 +6,22 @@ import java.util.Scanner;
  * Created by JamesHartanto on 4/2/17.
  */
 public class Main {
-    public static Scanner scanner;
+    public static Scanner scanner = new Scanner(System.in);
+//    public static ArrayList<Animals> AnimalList = new ArrayList<>();
 
     public static void main(String[] args) throws SQLException {
         String jdbcUrl = "jdbc:postgresql://localhost/animalshelter";
-        AnimalRepository repository = new AnimalRepository(jdbcUrl);
+        AnimalRepository animalrepository = new AnimalRepository(jdbcUrl);
 
         MenuService menuService = new MenuService(scanner);
-        ArrayList<Animals> AnimalList = new ArrayList<>();
         while(true){
             int selection = menuService.promptForMainMenu();
 
             if (selection==1){
-                menuService.listAnimals(AnimalList);
+//                menuService.listAnimals(AnimalList);
+                animalrepository.listAnimals();
             } else if (selection==2){
-                AnimalList.add(menuService.createAnAnimal());
+                menuService.createAnAnimal();
             } else if (selection==3){
                 menuService.viewAnimal(AnimalList);
             } else if (selection==4){
