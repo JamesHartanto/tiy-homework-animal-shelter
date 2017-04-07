@@ -1,14 +1,14 @@
 /**
  * Created by JamesHartanto on 3/29/17.
  */
-public class Animals {
+public class Animal {
 
     private String name;
     private String species;
     private String breed;
     private String description;
 
-    public Animals(String name, String species, String breed, String description){
+    public Animal(String name, String species, String breed, String description){
         this.name = name;
         this.species = species;
         this.breed = breed;
@@ -59,7 +59,7 @@ public class Animals {
 
     @Override
     public String toString() {
-        return "Animals{" +
+        return "Animal{" +
                 "name='" + name + '\'' +
                 ", species='" + species + '\'' +
                 ", breed='" + breed + '\'' +

@@ -13,22 +13,22 @@ public class Main {
         String jdbcUrl = "jdbc:postgresql://localhost/animalshelter";
         AnimalRepository animalrepository = new AnimalRepository(jdbcUrl);
 
-        AnimalService animalService = new AnimalService(scanner);
+        MenuService menuService = new MenuService(scanner, animalrepository);
         while(true){
-            int selection = animalService.promptForMainMenu();
+            int selection = menuService.promptForMainMenu();
 
             if (selection==1){
                 animalrepository.listAnimals();
             } else if (selection==2){
-                animalService.createAnAnimal();
+                menuService.createAnAnimal();
             } else if (selection==3){
-                animalService.viewAnimal();
+                menuService.viewAnimal();
             } else if (selection==4){
-                animalService.editAnimal();
+                menuService.editAnimal();
             } else if (selection==5){
-                animalService.deleteAnimal();
+                menuService.deleteAnimal();
             } else if (selection==6){
-                if (animalService.exitAnimal()){
+                if (menuService.exitAnimal()){
                     break;
                 };
             }

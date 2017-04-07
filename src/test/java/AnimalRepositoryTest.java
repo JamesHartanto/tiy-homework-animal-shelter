@@ -52,11 +52,11 @@ public class AnimalRepositoryTest {
         Statement stmt = conn.createStatement();
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable");
-        // Creating an arraylist of Animals to store the outputs
-        ArrayList<Animals> animalsArrayList = animalRepository.listAnimals();
+        // Creating an arraylist of Animal to store the outputs
+        ArrayList<Animal> animalArrayList = animalRepository.listAnimals();
         // Assert
-        assertThat(animalsArrayList.size(),equalTo(2));
-        assertThat(animalsArrayList.get(0).getName(),equalTo("name1"));
+        assertThat(animalArrayList.size(),equalTo(2));
+        assertThat(animalArrayList.get(0).getName(),equalTo("name1"));
     }
 
 
@@ -69,7 +69,7 @@ public class AnimalRepositoryTest {
     public void createAnimalMethodThenAnimalAddedToDatabaseTable() throws SQLException {
         // Arrange
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
-        Animals animal1 = new Animals("Bob","Dinosaur","T-rex","Short arms");
+        Animal animal1 = new Animal("Bob","Dinosaur","T-rex","Short arms");
 
         // Act
         animalRepository.saveAnimal(animal1);
@@ -111,11 +111,11 @@ public class AnimalRepositoryTest {
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
 
         // Act
-        Animals animals = animalRepository.readAnimalID(1);
+        Animal animal = animalRepository.readAnimalID(1);
 
         // Assert
-        assertThat(animals.getName(),containsString("name1"));
-        assertThat(animals.getDescription(),containsString("description1"));
+        assertThat(animal.getName(),containsString("name1"));
+        assertThat(animal.getDescription(),containsString("description1"));
     }
 
     @Test
@@ -129,9 +129,9 @@ public class AnimalRepositoryTest {
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
 
         // Act
-        Animals animal = new Animals("Yuen","Hsi","Got","Scared");
+        Animal animal = new Animal("Yuen","Hsi","Got","Scared");
         animalRepository.editAnimalID(1, animal);
-        Animals animals = animalRepository.readAnimalID(1);
+        Animal animals = animalRepository.readAnimalID(1);
 
         // Assert
         assertThat(animals.getName(),equalTo("Yuen"));
@@ -148,9 +148,9 @@ public class AnimalRepositoryTest {
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
 
         // Act
-        Animals animal = new Animals("","Hsi","Got","Scared");
+        Animal animal = new Animal("","Hsi","Got","Scared");
         animalRepository.editAnimalID(1, animal);
-        Animals animals = animalRepository.readAnimalID(1);
+        Animal animals = animalRepository.readAnimalID(1);
 
         // Assert
         assertThat(animals.getName(),equalTo("name1"));
@@ -165,14 +165,14 @@ public class AnimalRepositoryTest {
     public void filterAnimalbySomething() throws SQLException {
         // Arrange
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
-        Animals animalToAdd = new Animals("name1","lol","haha","texting");
+        Animal animalToAdd = new Animal("name1","lol","haha","texting");
         animalRepository.saveAnimal(animalToAdd);
 
         // Act
-        ArrayList<Animals> filteredList = animalRepository.filterBy("name","name1");
-        Animals anmal1 = animalRepository.readAnimalID(1);
-        Animals anmal2 = animalRepository.readAnimalID(2);
-        Animals anmal3 = animalRepository.readAnimalID(3);
+        ArrayList<Animal> filteredList = animalRepository.filterBy("name","name1");
+        Animal anmal1 = animalRepository.readAnimalID(1);
+        Animal anmal2 = animalRepository.readAnimalID(2);
+        Animal anmal3 = animalRepository.readAnimalID(3);
 
         // Assert
         assertThat(anmal1.getName(),equalTo("name1"));

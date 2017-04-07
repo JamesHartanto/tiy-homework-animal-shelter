@@ -1,5 +1,3 @@
-import com.sun.xml.internal.bind.XmlAccessorFactory;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -15,33 +13,33 @@ public class AnimalRepository {
     }
 
     // list animals #1
-    public ArrayList<Animals> listAnimals() throws SQLException {
-        ArrayList<Animals> animalsArrayList = new ArrayList<>();
+    public ArrayList<Animal> listAnimals() throws SQLException {
+        ArrayList<Animal> animalArrayList = new ArrayList<>();
         Statement stmt = conn.createStatement();
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable");
 
         while (resultSet.next()){
             System.out.print("ID:" + resultSet.getInt("id") + ") ");
-            Animals animal = new Animals(
+            Animal animal = new Animal(
                     resultSet.getString("name"),
                     resultSet.getString("species"),
                     resultSet.getString("breed"),
                     resultSet.getString("description"));
             System.out.printf("NAME: %s   SPECIES: %s   BREED: %s   DESCRIPTION: %s\n",
                     animal.getName(),animal.getSpecies(),animal.getBreed(),animal.getDescription());
-            animalsArrayList.add(animal);
+            animalArrayList.add(animal);
         }
 
-        if (animalsArrayList.size()==0){
+        if (animalArrayList.size()==0){
             System.out.println("All the animals have a home! " +
                     "There is currently no animal living in the shelter!");
         }
-        return animalsArrayList;
+        return animalArrayList;
     }
 
 
     // sending data to database table #2
-    public void saveAnimal(Animals animal) throws SQLException {
+    public void saveAnimal(Animal animal) throws SQLException {
         // before
         int before = countAnimals();
         Statement stmt = conn.createStatement();
@@ -60,11 +58,11 @@ public class AnimalRepository {
 
 
     //read animals by ID #3
-    public Animals readAnimalID(int id) throws SQLException {
+    public Animal readAnimalID(int id) throws SQLException {
         Statement stmt = conn.createStatement();
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable WHERE id = "+ id);
         resultSet.next();
-        Animals animal = new Animals(resultSet.getString("name"),
+        Animal animal = new Animal(resultSet.getString("name"),
                 resultSet.getString("species"),
                 resultSet.getString("breed"),
                 resultSet.getString("description"));
@@ -73,9 +71,9 @@ public class AnimalRepository {
 
 
     // edit animal by ID #4
-    public void editAnimalID(int id, Animals animal) throws SQLException {
+    public void editAnimalID(int id, Animal animal) throws SQLException {
         Statement stmt = conn.createStatement();
-        Animals animalInDatabase = readAnimalID(id);
+        Animal animalInDatabase = readAnimalID(id);
         // Checking if anything is empty
         if (animal.getName().isEmpty()){
             animal.setName(animalInDatabase.getName());
@@ -117,18 +115,18 @@ public class AnimalRepository {
     }
 
 
-    public ArrayList<Animals> filterBy(String tableColumn, String value) throws SQLException {
-        ArrayList<Animals> animalsArrayList = new ArrayList<>();
+    public ArrayList<Animal> filterBy(String tableColumn, String value) throws SQLException {
+        ArrayList<Animal> animalArrayList = new ArrayList<>();
         Statement stmt = conn.createStatement();
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable WHERE '" + tableColumn + "' = '" + value + "'");
 
         while (resultSet.next()){
-            Animals animal = new Animals(resultSet.getString("name"),
+            Animal animal = new Animal(resultSet.getString("name"),
                     resultSet.getString("species"),
                     resultSet.getString("breed"),
                     resultSet.getString("description"));
-            animalsArrayList.add(animal);
+            animalArrayList.add(animal);
         }
-        return animalsArrayList;
+        return animalArrayList;
     }
 }

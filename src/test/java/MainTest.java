@@ -37,7 +37,7 @@ public class MainTest {
         // Act
         Main.main(null);
         // Assert
-        assertThat(outputStream.toString(),containsString("--List Animals--"));
+        assertThat(outputStream.toString(),containsString("--List Animal--"));
     }
 
     @Test
