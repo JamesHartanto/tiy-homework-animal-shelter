@@ -9,6 +9,7 @@ public class Main {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws SQLException {
+        scanner.useDelimiter("\n");
         String jdbcUrl = "jdbc:postgresql://localhost/animalshelter";
         AnimalRepository animalrepository = new AnimalRepository(jdbcUrl);
 
