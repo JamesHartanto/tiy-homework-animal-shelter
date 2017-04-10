@@ -11,19 +11,33 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         scanner.useDelimiter("\n");
         String jdbcUrl = "jdbc:postgresql://localhost/animalshelter";
-        AnimalRepository animalrepository = new AnimalRepository(jdbcUrl);
+        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
+        MenuService menuService = new MenuService(scanner, animalRepository);
 
-        MenuService menuService = new MenuService(scanner, animalrepository);
         while(true){
             int selection = menuService.promptForMainMenu();
 
+            // LIST ANIMALS
             if (selection==1){
-                animalrepository.listAnimals();
+                // Getting the arraylist from repository
+                // Printing out all the animals
+                menuService.listAnimal(animalRepository.listAnimals());
+
+            // CREATE ANIMAL
             } else if (selection==2){
-                menuService.createAnAnimal();
+                // Using menuService to get details of the new animal
+                // Adding the animal to the database
+                animalRepository.saveAnimal(menuService.createAnAnimal());
+
+            // VIEW A PARTICULAR ANIMAL
             } else if (selection==3){
-                menuService.viewAnimal();
+                // Using menuService to see what animal to see
+                // Getting animal data from database and printing it out
+                animalRepository.readAnimalID(menuService.viewAnimal());
+
+            // EDITING AN ANIMAL
             } else if (selection==4){
+                // Using menuService to see what animal to edit
                 menuService.editAnimal();
             } else if (selection==5){
                 menuService.deleteAnimal();

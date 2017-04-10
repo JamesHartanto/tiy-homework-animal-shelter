@@ -1,4 +1,5 @@
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -40,8 +41,27 @@ public class MenuService {
         }
     }
 
+    // Listing animals #1
+    public void listAnimal(ArrayList<Animal> animalList){
+        System.out.println("--List of Animals--");
+        if (animalList.size() == 0){
+            System.out.println("All the animals have a home! " +
+                    "There is currently no animal living in the shelter!");
+        } else {
+            for (int x = 0; x < animalList.size(); x = x + 1){
+                System.out.print(x + 1 + ")");
+                System.out.printf("NAME: %s   SPECIES: %s   BREED: %s   DESCRIPTION: %s\n",
+                        animalList.get(x).getName(),
+                        animalList.get(x).getSpecies(),
+                        animalList.get(x).getBreed(),
+                        animalList.get(x).getDescription());
+            }
+        }
+    }
+
+
     // Creating an animal #2
-    public void createAnAnimal() throws SQLException {
+    public Animal createAnAnimal() throws SQLException {
         System.out.println("--Create an Animal--\nPlease answer the following questions:");
 
         // Animal name
@@ -64,22 +84,18 @@ public class MenuService {
         System.out.println("Description: " + description);
 
         // Creating the animal
-//        return new Animal(name,species,breed,description);
-        Animal animalToSave = new Animal(name,species,breed,description);
-        animalRepository.saveAnimal(animalToSave);
-        System.out.println("Animal saved to database!");
+        return new Animal(name,species,breed,description);
     }
 
     // Viewing a particular animal #3
-    public void viewAnimal() throws SQLException {
+    public int viewAnimal() throws SQLException {
         System.out.println("--View an Animal--");
+        // Creating variable to store user input
+        int input = 0;
         if (animalRepository.countAnimals() == 0) {
             System.out.println("There are no animals to view!");
         } else {
             System.out.println("What is the numeric ID of the animal you want to view?");
-
-            // Creating variable to store user input
-            int input = 0;
 
             // Checks if user input is an integer
             if (scanner.hasNextInt()) {
@@ -91,13 +107,7 @@ public class MenuService {
                     viewAnimal();
 
                 } else {
-                    Animal animalToView = animalRepository.readAnimalID(input);
-                    System.out.printf("NAME: %-10s \n " +
-                                    "SPECIES: %-10s \n " +
-                                    "BREED: %-10s \n " +
-                                    "DESCRIPTION: %-10s\n",
-                            animalToView.getName(),animalToView.getSpecies(),animalToView.getBreed(),
-                            animalToView.getDescription());
+                    return input;
                 }
 
             } else {
@@ -106,6 +116,7 @@ public class MenuService {
                 viewAnimal();
             }
         }
+        return input;
     }
 
     // Editing an animal #4

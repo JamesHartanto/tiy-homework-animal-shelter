@@ -29,11 +29,6 @@ public class AnimalRepository {
                     animal.getName(),animal.getSpecies(),animal.getBreed(),animal.getDescription());
             animalArrayList.add(animal);
         }
-
-        if (animalArrayList.size()==0){
-            System.out.println("All the animals have a home! " +
-                    "There is currently no animal living in the shelter!");
-        }
         return animalArrayList;
     }
 
@@ -42,12 +37,13 @@ public class AnimalRepository {
     public void saveAnimal(Animal animal) throws SQLException {
         // before
         int before = countAnimals();
-        Statement stmt = conn.createStatement();
-        stmt.execute("INSERT INTO animaltable(name,species,breed,description) " +
-               "VALUES ('" + animal.getName() + "', '" +
-               animal.getSpecies()+"', '" +
-               animal.getBreed()+"','" +
-               animal.getDescription()+"')");
+        PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO animaltable(name,species,breed,description) " +
+               "VALUES (?,?,?,?)");
+        preparedStatement.setString(1,animal.getName());
+        preparedStatement.setString(2,animal.getSpecies());
+        preparedStatement.setString(3,animal.getBreed());
+        preparedStatement.setString(4,animal.getDescription());
+
         // success?
         if (countAnimals()>before){
             System.out.println("An animal has successfully been added to the database!");
@@ -59,14 +55,22 @@ public class AnimalRepository {
 
     //read animals by ID #3
     public Animal readAnimalID(int id) throws SQLException {
-        Statement stmt = conn.createStatement();
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable WHERE id = "+ id);
-        resultSet.next();
-        Animal animal = new Animal(resultSet.getString("name"),
-                resultSet.getString("species"),
-                resultSet.getString("breed"),
-                resultSet.getString("description"));
-        return animal;
+        PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM animaltable WHERE id = ?");
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        Animal animalToSee = null;
+        while (resultSet.next()) {
+            System.out.print("ID:" + resultSet.getInt("id") + ") ");
+            Animal animal = new Animal(
+                    resultSet.getString("name"),
+                    resultSet.getString("species"),
+                    resultSet.getString("breed"),
+                    resultSet.getString("description"));
+            System.out.printf("NAME: %s   SPECIES: %s   BREED: %s   DESCRIPTION: %s\n",
+                    animal.getName(), animal.getSpecies(), animal.getBreed(), animal.getDescription());
+            animalToSee = animal;
+        }
+        return animalToSee;
     }
 
 
