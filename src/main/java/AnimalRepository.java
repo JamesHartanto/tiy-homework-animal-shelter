@@ -78,21 +78,6 @@ public class AnimalRepository {
 
     // edit animal by ID #4
     public void editAnimalID(int id, Animal animal) throws SQLException {
-        Statement stmt = conn.createStatement();
-        Animal animalInDatabase = readAnimalID(id);
-        // Checking if anything is empty
-        if (animal.getName().isEmpty()){
-            animal.setName(animalInDatabase.getName());
-        }
-        if (animal.getSpecies().isEmpty()){
-            animal.setSpecies(animalInDatabase.getSpecies());
-        }
-        if (animal.getBreed().isEmpty()){
-            animal.setBreed(animalInDatabase.getBreed());
-        }
-        if (animal.getDescription().isEmpty()){
-            animal.setDescription(animalInDatabase.getDescription());
-        }
         // Updating the values
         PreparedStatement preparedStatement = conn.prepareStatement("UPDATE animaltable SET " +
                 "name = ?," +

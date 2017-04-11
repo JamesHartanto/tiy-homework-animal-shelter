@@ -375,7 +375,7 @@ public class MenuServiceTest {
      * Then error messages are shown
      */
     public void BadInputsGivenThenErrorMessagesShown() throws SQLException {
-        Scanner scanner = new Scanner("5\n0\n1\nZoro the swordsman\n123\n \nCaptain");
+        Scanner scanner = new Scanner("5\n0\n1\nZoro the swordsman\n123\n \nCaptain").useDelimiter("\n");
         String jdbcUrl = "jdbc:h2:mem:animaltable";
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
         MenuService menuService = new MenuService(scanner, animalRepository);
@@ -388,7 +388,7 @@ public class MenuServiceTest {
         assertThat(outputStream.toString(),containsString("Sorry, that is not a valid input. Please try again."));
         assertThat(animalRepository.readAnimalID(1).getName(),equalTo("Zoro the swordsman"));
         assertThat(animalRepository.readAnimalID(1).getSpecies(),equalTo("123"));
-        assertThat(animalRepository.readAnimalID(1).getBreed(),equalTo("Rubber"));
+        assertThat(animalRepository.readAnimalID(1).getBreed(),equalTo("breed1"));
         assertThat(animalRepository.readAnimalID(1).getDescription(),equalTo("Captain"));
     }
 

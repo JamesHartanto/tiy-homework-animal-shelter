@@ -151,7 +151,7 @@ public class MenuService {
 
         // name
         System.out.print("Animal name [" + animalToEdit.getName() + "]: ");
-        String name = scanner.nextLine();
+        String name = scanner.next();
         // only changes value if there is a non-empty entry
         if (!name.isEmpty()) {
             animalToEdit.setName(name);
