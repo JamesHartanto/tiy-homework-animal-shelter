@@ -158,17 +158,18 @@ public class MenuServiceTest {
         String jdbcUrl = "jdbc:h2:mem:animaltable";
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
         MenuService menuService = new MenuService(scanner, animalRepository);
-        ArrayList<Animal> animalList = new ArrayList<>();
+        animalRepository.deleteAnimal(2);
+        animalRepository.deleteAnimal(1);
         // Act
         animalRepository.listAnimals();
         // Assert
-        assertThat(outputStream.toString(),equalTo("--List of Animals--\n" +
+        assertThat(outputStream.toString(),containsString("--List of Animals--\n" +
                 "All the animals have a home! There is currently no animal living in the shelter!\n"));
     }
 
     @Test
     /**
-     * Given a list of 5 animals
+     * Given a list of 2 animals
      * When the list animal method is called upon
      * Then the animals' name and species are returned
      */
@@ -178,31 +179,18 @@ public class MenuServiceTest {
         String jdbcUrl = "jdbc:h2:mem:animaltable";
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
         MenuService menuService = new MenuService(scanner, animalRepository);
-        ArrayList<Animal> animalList = new ArrayList<>();
-        Animal animal1 = new Animal("Bob","Dinosaur","T-rex","Short Arms");
-        Animal animal2 = new Animal("Bill","Monkey","Unknown","Hates Bananas");
-        Animal animal3 = new Animal("Nye","Unknown","","Alien?");
-        Animal animal4 = new Animal("Science","Human","Nerd","Wears Big Glasses");
-        Animal animal5 = new Animal("Guy","Fish","Clownfish","Orange and White");
-        animalList.add(animal1);
-        animalList.add(animal2);
-        animalList.add(animal3);
-        animalList.add(animal4);
-        animalList.add(animal5);
         // Act
         animalRepository.listAnimals();
         // Assert
         assertThat(outputStream.toString(),containsString("--List of Animals--"));
-        assertThat(outputStream.toString(),containsString("Bob"));
-        assertThat(outputStream.toString(),containsString("Bill"));
-        assertThat(outputStream.toString(),containsString("Nye"));
-        assertThat(outputStream.toString(),containsString("Science"));
-        assertThat(outputStream.toString(),containsString("Guy"));
-        assertThat(outputStream.toString(),containsString("Dinosaur"));
-        assertThat(outputStream.toString(),containsString("Monkey"));
-        assertThat(outputStream.toString(),containsString("Unknown"));
-        assertThat(outputStream.toString(),containsString("Human"));
-        assertThat(outputStream.toString(),containsString("Fish"));
+        assertThat(outputStream.toString(),containsString("name1"));
+        assertThat(outputStream.toString(),containsString("name2"));
+        assertThat(outputStream.toString(),containsString("breed1"));
+        assertThat(outputStream.toString(),containsString("breed2"));
+        assertThat(outputStream.toString(),containsString("species1"));
+        assertThat(outputStream.toString(),containsString("species2"));
+        assertThat(outputStream.toString(),containsString("description1"));
+        assertThat(outputStream.toString(),containsString("description2"));
     }
 
     @Test
@@ -227,29 +215,6 @@ public class MenuServiceTest {
         // Assert
         assertThat(outputStream.toString(), containsString("1"));
         assertThat(outputStream.toString(), containsString("2"));
-    }
-
-    @Test
-    /**
-     * Given a main menu
-     * When the user inputs 1
-     * Then the list animals method is invoked
-     */
-    public void whenUserInputs1ThenListAnimalsMethod() throws SQLException {
-        // Arrange
-        Scanner scanner = new Scanner("1");
-        String jdbcUrl = "jdbc:h2:mem:animaltable";
-        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
-        MenuService menuService = new MenuService(scanner, animalRepository);
-        ArrayList<Animal> animalList = new ArrayList<>();
-        // Act
-        int listAnimal1 = menuService.promptForMainMenu();
-        if (listAnimal1==1){
-            animalRepository.listAnimals();
-        }
-        // Assert
-        MatcherAssert.assertThat(outputStream.toString(),containsString("All the animals have a home! " +
-                "There is currently no animal living in the shelter!\n"));
     }
 
     @Test
