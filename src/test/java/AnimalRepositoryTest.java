@@ -73,8 +73,6 @@ public class AnimalRepositoryTest {
 
         // Act
         animalRepository.saveAnimal(animal1);
-        Statement stmt = conn.createStatement();
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable");
 
         int x = animalRepository.countAnimals();
 
@@ -111,11 +109,11 @@ public class AnimalRepositoryTest {
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
 
         // Act
-        Animal animal = animalRepository.readAnimalID(1);
+        ArrayList<Animal> animal = animalRepository.readAnimalID(1);
 
         // Assert
-        assertThat(animal.getName(),containsString("name1"));
-        assertThat(animal.getDescription(),containsString("description1"));
+        assertThat(animal.get(0).getName(),containsString("name1"));
+        assertThat(animal.get(0).getDescription(),containsString("description1"));
     }
 
     @Test
@@ -131,55 +129,11 @@ public class AnimalRepositoryTest {
         // Act
         Animal animal = new Animal("Yuen","Hsi","Got","Scared");
         animalRepository.editAnimalID(1, animal);
-        Animal animals = animalRepository.readAnimalID(1);
+        ArrayList<Animal> animals = animalRepository.readAnimalID(1);
 
         // Assert
-        assertThat(animals.getName(),equalTo("Yuen"));
+        assertThat(animals.get(0).getName(),equalTo("Yuen"));
     }
-
-    @Test
-    /**
-     * Given an animal repository with 2 animals
-     * When the edit animal method is invoked with empty inputs
-     * Then the animal is edited
-     */
-    public void animalRepositoryWith2AnimalsAndEditAnimalWithEmptyInputs() throws SQLException {
-        // Arrange
-        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
-
-        // Act
-        Animal animal = new Animal("","Hsi","Got","Scared");
-        animalRepository.editAnimalID(1, animal);
-        Animal animals = animalRepository.readAnimalID(1);
-
-        // Assert
-        assertThat(animals.getName(),equalTo("name1"));
-    }
-
-    @Test
-    /**
-     * Given an animal repository with 3 animals (2 with same name)
-     * When a filter method is invoked
-     * Then the animals received are filtered accordingly by the name
-     */
-    public void filterAnimalbySomething() throws SQLException {
-        // Arrange
-        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
-        Animal animalToAdd = new Animal("name1","lol","haha","texting");
-        animalRepository.saveAnimal(animalToAdd);
-
-        // Act
-        ArrayList<Animal> filteredList = animalRepository.filterBy("name","name1");
-        Animal anmal1 = animalRepository.readAnimalID(1);
-        Animal anmal2 = animalRepository.readAnimalID(2);
-        Animal anmal3 = animalRepository.readAnimalID(3);
-
-        // Assert
-        assertThat(anmal1.getName(),equalTo("name1"));
-        assertThat(anmal2.getName(),equalTo("name2"));
-        assertThat(anmal3.getName(),equalTo("name1"));
-    }
-
 
     @After
     public void after() throws SQLException {

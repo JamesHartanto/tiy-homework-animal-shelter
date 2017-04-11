@@ -160,7 +160,7 @@ public class MenuServiceTest {
         MenuService menuService = new MenuService(scanner, animalRepository);
         ArrayList<Animal> animalList = new ArrayList<>();
         // Act
-        menuService.listAnimal(animalList);
+        animalRepository.listAnimals();
         // Assert
         assertThat(outputStream.toString(),equalTo("--List of Animals--\n" +
                 "All the animals have a home! There is currently no animal living in the shelter!\n"));
@@ -190,7 +190,7 @@ public class MenuServiceTest {
         animalList.add(animal4);
         animalList.add(animal5);
         // Act
-        menuService.listAnimal(animalList);
+        animalRepository.listAnimals();
         // Assert
         assertThat(outputStream.toString(),containsString("--List of Animals--"));
         assertThat(outputStream.toString(),containsString("Bob"));
@@ -223,7 +223,7 @@ public class MenuServiceTest {
         animalList.add(animal1);
         animalList.add(animal2);
         // Act
-        menuService.listAnimal(animalList);
+        animalRepository.listAnimals();
         // Assert
         assertThat(outputStream.toString(), containsString("1"));
         assertThat(outputStream.toString(), containsString("2"));
@@ -245,7 +245,7 @@ public class MenuServiceTest {
         // Act
         int listAnimal1 = menuService.promptForMainMenu();
         if (listAnimal1==1){
-            menuService.listAnimal(animalList);
+            animalRepository.listAnimals();
         }
         // Assert
         MatcherAssert.assertThat(outputStream.toString(),containsString("All the animals have a home! " +
@@ -354,9 +354,6 @@ public class MenuServiceTest {
         String jdbcUrl = "jdbc:h2:mem:animaltable";
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
         MenuService menuService = new MenuService(scanner, animalRepository);
-        ArrayList<Animal> animalList = new ArrayList<>();
-        Animal Animal1 = new Animal("Luffy", "Pirate", "Rubber", "Captain");
-        animalList.add(Animal1);
         // Act
         int number = menuService.editAnimalNumber();
         menuService.editAnimalInputs(number);
@@ -371,12 +368,12 @@ public class MenuServiceTest {
 
     @Test
     /**
-     * Given a main menu with an animal
+     * Given a main menu with two animals
      * When bad inputs are given
      * Then error messages are shown
      */
     public void BadInputsGivenThenErrorMessagesShown() throws SQLException {
-        Scanner scanner = new Scanner("5\n0\n1\nZoro the swordsman\n123\n \nCaptain").useDelimiter("\n");
+        Scanner scanner = new Scanner("4\n0\n1\nZoro the swordsman\n123\n \nCaptain").useDelimiter("\n");
         String jdbcUrl = "jdbc:h2:mem:animaltable";
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
         MenuService menuService = new MenuService(scanner, animalRepository);
@@ -385,34 +382,36 @@ public class MenuServiceTest {
         Animal animal = menuService.editAnimalInputs(number);
         animalRepository.editAnimalID(number,animal);
         // Assert
-        assertThat(outputStream.toString(),containsString("Sorry, that is not a valid input. Please try again."));
-        assertThat(outputStream.toString(),containsString("Sorry, that is not a valid input. Please try again."));
-        assertThat(animalRepository.readAnimalID(1).getName(),equalTo("Zoro the swordsman"));
-        assertThat(animalRepository.readAnimalID(1).getSpecies(),equalTo("123"));
-        assertThat(animalRepository.readAnimalID(1).getBreed(),equalTo("breed1"));
-        assertThat(animalRepository.readAnimalID(1).getDescription(),equalTo("Captain"));
+        assertThat(outputStream.toString(),containsString("4 is not a valid option. Please try again!"));
+        assertThat(outputStream.toString(),containsString("0 is not a valid option. Please try again!"));
+        assertThat(animalRepository.readAnimalID(1).get(0).getName(),equalTo("Zoro the swordsman"));
+        assertThat(animalRepository.readAnimalID(1).get(0).getSpecies(),equalTo("123"));
+        assertThat(animalRepository.readAnimalID(1).get(0).getBreed(),equalTo("breed1"));
+        assertThat(animalRepository.readAnimalID(1).get(0).getDescription(),equalTo("Captain"));
     }
 
-//    @Test
-//    /**
-//     * Given a main menu
-//     * When there is no animal in the list for editing (delete animals first)
-//     * Then it displayed error message and exits
-//     */
-//    public void noAnimalInListForEditingThenErrorMessageAndExit() throws SQLException {
-//        // Arrange
-//        Scanner scanner = new Scanner("1\n");
-//        String jdbcUrl = "jdbc:h2:mem:animaltable";
-//        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
-//        MenuService menuService = new MenuService(scanner, animalRepository);
-//        ArrayList<Animal> AnimalList = new ArrayList<Animal>();
-//        // Act
-//        int number = menuService.editAnimalNumber();
-//        Animal animal = menuService.editAnimalInputs(number);
-//        animalRepository.editAnimalID(number,animal);
-//        // Assert
-//        assertThat(outputStream.toString(),containsString("There are no animals! Create an animal first!"));
-//    }
+    @Test
+    /**
+     * Given a main menu
+     * When there is no animal in the list for editing (delete animals first)
+     * Then it displayed error message and exits
+     */
+    public void noAnimalInListForEditingThenErrorMessageAndExit() throws SQLException {
+        // Arrange
+        Scanner scanner = new Scanner("2\nyes\n1\nyes\n1");
+        String jdbcUrl = "jdbc:h2:mem:animaltable";
+        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
+        MenuService menuService = new MenuService(scanner, animalRepository);
+        // Act
+            // Deleting the two animals inside database
+        animalRepository.deleteAnimal(menuService.deleteAnimal());
+        animalRepository.deleteAnimal(menuService.deleteAnimal());
+
+        menuService.editAnimalNumber();
+
+        // Assert
+        assertThat(outputStream.toString(),containsString("There are no animals! Create an animal first!"));
+    }
 
 
     @Test
@@ -460,9 +459,9 @@ public class MenuServiceTest {
     /**
      * Given a main menu with two animals
      * When the delete method is prompted to delete animal 2 and confirmed no
-     * Then the list still has three animals remaining
+     * Then the list still has two animals remaining
      */
-    public void threeAnimalsDeleteStillThreeRemaining() throws SQLException {
+    public void twoAnimalsDeleteStillTwoRemaining() throws SQLException {
         // Arrange
         Scanner scanner = new Scanner("2\nNo");
         String jdbcUrl = "jdbc:h2:mem:animaltable";
@@ -471,6 +470,7 @@ public class MenuServiceTest {
 
         // Act
         animalRepository.deleteAnimal(menuService.deleteAnimal());
+
         // Assert
         assertThat(outputStream.toString(),containsString("Are you sure you want to delete"));
         assertThat(outputStream.toString(),containsString("The animal is safe!"));

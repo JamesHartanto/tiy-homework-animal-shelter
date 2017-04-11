@@ -41,23 +41,7 @@ public class MenuService {
         }
     }
 
-    // Listing animals #1
-    public void listAnimal(ArrayList<Animal> animalList){
-        System.out.println("--List of Animals--");
-        if (animalList.size() == 0){
-            System.out.println("All the animals have a home! " +
-                    "There is currently no animal living in the shelter!");
-        } else {
-            for (int x = 0; x < animalList.size(); x = x + 1){
-                System.out.print(x + 1 + ")");
-                System.out.printf("NAME: %s   SPECIES: %s   BREED: %s   DESCRIPTION: %s\n",
-                        animalList.get(x).getName(),
-                        animalList.get(x).getSpecies(),
-                        animalList.get(x).getBreed(),
-                        animalList.get(x).getDescription());
-            }
-        }
-    }
+    // Listing animals #1 - animalRepository's job
 
 
     // Creating an animal #2
@@ -122,66 +106,65 @@ public class MenuService {
     // Editing an animal #4
     public int editAnimalNumber() throws SQLException {
         System.out.println("--Edit Animal--");
-        // variable to hold integer
-        int userInt = 0;
+        int input = 0;
         // making sure there are animals in the list
         if (animalRepository.countAnimals() == 0) {
-            System.out.println("There are no animals! Create an animal first!");
+            System.out.println("There are no animals! Create an animal first!\n");
             // edit animal if there are animals in the list
         } else {
-            System.out.println("What is the numeric ID of the animal you want to edit?");
-
-            // Checks if user input is an integer - needed to use Integer.parseInt so test can read next line properly
-            String input = scanner.next();
-            while (!isInteger(input) || Integer.parseInt(input) > animalRepository.countAnimals() ||
-                    Integer.parseInt(input) < 1) {
-                System.out.println("Sorry, that is not a valid input. Please try again.\n");
-                input = scanner.next();
+            // Checks if user input is an integer
+            input = waitForInt("What is the numeric ID of the animal you want to edit?");
+            if (input < 1 || input > animalRepository.countAnimals()){
+                System.out.printf("%s is not a valid option. Please try again!\n", input);
+                return editAnimalNumber();
             }
-            userInt = Integer.parseInt(input);
         }
-        return userInt;
+        return input;
     }
 
     public Animal editAnimalInputs(int userInt) throws SQLException {
-        // EDITING THE ANIMAL
-        Animal animalToEdit = animalRepository.readAnimalID(userInt);
-        System.out.println("Please answer the following questions. Press enter to keep the current values.");
+        if (userInt != 0) {
+            // EDITING THE ANIMAL
+            ArrayList<Animal> animalToEdit = animalRepository.readAnimalID(userInt);
+            System.out.println("Please answer the following questions. Press enter to keep the current values.");
 
-        // name
-        System.out.print("Animal name [" + animalToEdit.getName() + "]: ");
-        String name = scanner.next();
-        // only changes value if there is a non-empty entry
-        if (!name.isEmpty()) {
-            animalToEdit.setName(name);
+            // name
+            System.out.print("Animal name [" + animalToEdit.get(0).getName() + "]: ");
+            String name = scanner.next();
+            // only changes value if there is a non-empty entry
+            if (!name.isEmpty()) {
+                animalToEdit.get(0).setName(name);
+            }
+            System.out.println("Animal name is now set to: " + animalToEdit.get(0).getName());
+
+            // species
+            System.out.print("Animal species [" + animalToEdit.get(0).getSpecies() + "]: ");
+            String species = scanner.next().trim();
+            if (!species.isEmpty()) {
+                animalToEdit.get(0).setSpecies(species);
+            }
+            System.out.println("Animal species is now set to: " + animalToEdit.get(0).getSpecies());
+
+            // breed - no trim because it can be edited to nothing
+            System.out.print("Animal breed (optional) [" + animalToEdit.get(0).getBreed() + "]: ");
+            String breed = scanner.next().trim();
+            if (!breed.isEmpty()) {
+                animalToEdit.get(0).setBreed(breed);
+            }
+            System.out.println("Animal breed is now set to: " + animalToEdit.get(0).getBreed());
+
+            // description
+            System.out.print("Animal description [" + animalToEdit.get(0).getDescription() + "]: ");
+            String description = scanner.next().trim();
+            if (!description.isEmpty()) {
+                animalToEdit.get(0).setDescription(description);
+            }
+            System.out.println("Animal description is: " + animalToEdit.get(0).getDescription());
+
+            return animalToEdit.get(0);
         }
-        System.out.println("Animal name is now set to: " + animalToEdit.getName());
-
-        // species
-        System.out.print("Animal species [" + animalToEdit.getSpecies() + "]: ");
-        String species = scanner.next().trim();
-        if (!species.isEmpty()) {
-            animalToEdit.setSpecies(species);
-        }
-        System.out.println("Animal species is now set to: " + animalToEdit.getSpecies());
-
-        // breed - no trim because it can be edited to nothing
-        System.out.print("Animal breed (optional) [" + animalToEdit.getBreed() + "]: ");
-        String breed = scanner.next().trim();
-        if (!breed.isEmpty()) {
-            animalToEdit.setBreed(breed);
-        }
-        System.out.println("Animal breed is now set to: " + animalToEdit.getBreed());
-
-        // description
-        System.out.print("Animal description [" + animalToEdit.getDescription() + "]: ");
-        String description = scanner.next().trim();
-        if (!description.isEmpty()) {
-            animalToEdit.setDescription(description);
-        }
-        System.out.println("Animal description is: " + animalToEdit.getDescription());
-
-        return animalToEdit;
+        Animal badAnimal = new Animal(" "," "," "," ");
+        return badAnimal;
     }
 
 
@@ -193,36 +176,25 @@ public class MenuService {
         int input = 0;
         // Checking if there are any animals
         if (animalRepository.countAnimals() == 0){
-            System.out.println("There are no animals in the shelter to delete!");
+            System.out.println("There are no animals in the shelter to delete!\n");
+            return 0;
         } else {
-            System.out.println("What is the numeric ID of the animal you want to delete?");
-            // Checks if user input is an integer
-            if (scanner.hasNextInt()){
-                input = scanner.nextInt();
-
-                // Checks to see if integer is in the list
-                if (input > animalRepository.countAnimals() || input < 1){
-                    System.out.println(input + " is not part of the list! Please try again!");
-                    deleteAnimal();
-
-                } else {
-                    // Confirmation of deletion
-                    System.out.println("Are you sure you want to delete " + animalRepository.readAnimalID(input) + "? (Y/N)");
-                    if (deleteQuitConfirmation()){
-                        return input;
-                    } else {
-                        System.out.println("The animal is safe!");
-                    }
-                }
-                // if user did not input integer, prompt again
+            input = waitForInt("What is the numeric ID of the animal you want to delete?");
+            // Checks to see if integer is in the list
+            if (input > animalRepository.countAnimals() || input < 1){
+                System.out.println(input + " is not part of the list! Please try again!");
+                return deleteAnimal();
             } else {
-                String badInput = scanner.next();
-                System.out.println("Error: Invalid input! " + badInput + " is not an integer!");
-                deleteAnimal();
+                // Confirmation of deletion
+                System.out.println("Are you sure you want to delete " + animalRepository.readAnimalID(input).get(0) + "? (Y/N)");
+                if (deleteQuitConfirmation()){
+                    return input;
+                } else {
+                    System.out.println("The animal is safe!");
+                    return 0;
+                }
             }
         }
-        // did not delete, give database a non-existent id
-        return 0;
     }
 
 
@@ -253,15 +225,21 @@ public class MenuService {
         }
     }
 
-    // Checking if input is integer, returns true or false
-    private static boolean isInteger(String str) {
-        try {
-            int d = Integer.parseInt(str);
+    private int waitForInt(String prompt) {
+        // display the prompt to the user
+        System.out.print(prompt.trim() + " ");
+        // check if the next input is an int.
+        if (!scanner.hasNextInt()) {
+            // if the next input is not an int, read it as a string to show in an error message
+            String badInput = scanner.next();
+            // show an error message
+            System.out.printf("\nError: '%s' is not a valid number. Please try again.\n", badInput);
+            // recursively prompt the user again
+            return waitForInt(prompt);
+        } else {
+            // return the int the user provided
+            return scanner.nextInt();
         }
-        catch(NumberFormatException e) {
-            return false;
-        }
-        return true;
     }
 
     // Confirmation for delete/quit

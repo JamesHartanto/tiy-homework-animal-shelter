@@ -21,7 +21,7 @@ public class Main {
             if (selection==1){
                 // Getting the arraylist from repository
                 // Printing out all the animals
-                menuService.listAnimal(animalRepository.listAnimals());
+                animalRepository.listAnimals();
 
             // CREATE ANIMAL
             } else if (selection==2){
