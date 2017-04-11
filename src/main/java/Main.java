@@ -37,8 +37,11 @@ public class Main {
 
             // EDITING AN ANIMAL
             } else if (selection==4){
-                // Using menuService to see what animal to edit
-                menuService.editAnimal();
+                // Using menuService to see what animal to edit and storing as variables
+                int animalNumberToEdit = menuService.editAnimalNumber();
+                Animal animalToEdit = menuService.editAnimalInputs(animalNumberToEdit);
+                // Sending data to database
+                animalRepository.editAnimalID(animalNumberToEdit,animalToEdit);
             } else if (selection==5){
                 menuService.deleteAnimal();
             } else if (selection==6){

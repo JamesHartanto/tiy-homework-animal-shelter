@@ -357,7 +357,8 @@ public class MenuServiceTest {
         Animal Animal1 = new Animal("Luffy", "Pirate", "Rubber", "Captain");
         animalList.add(Animal1);
         // Act
-        menuService.editAnimal();
+        int number = menuService.editAnimalNumber();
+        menuService.editAnimalInputs(number);
         // Assert
         assertThat(outputStream.toString(),containsString("What is the numeric ID of the animal you want to edit?"));
         assertThat(outputStream.toString(),containsString("Please answer the following questions. Press enter to keep the current values."));
@@ -378,18 +379,17 @@ public class MenuServiceTest {
         String jdbcUrl = "jdbc:h2:mem:animaltable";
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
         MenuService menuService = new MenuService(scanner, animalRepository);
-        ArrayList<Animal> animalList = new ArrayList<>();
-        Animal Animal1 = new Animal("Luffy", "Pirate", "Rubber", "Orphan");
-        animalList.add(Animal1);
         // Act
-        menuService.editAnimal();
+        int number = menuService.editAnimalNumber();
+        Animal animal = menuService.editAnimalInputs(number);
+        animalRepository.editAnimalID(number,animal);
         // Assert
         assertThat(outputStream.toString(),containsString("Sorry, that is not a valid input. Please try again."));
         assertThat(outputStream.toString(),containsString("Sorry, that is not a valid input. Please try again."));
-        assertThat(animalList.get(0).getName(),equalTo("Zoro the swordsman"));
-        assertThat(animalList.get(0).getSpecies(),equalTo("123"));
-        assertThat(animalList.get(0).getBreed(),equalTo("Rubber"));
-        assertThat(animalList.get(0).getDescription(),equalTo("Captain"));
+        assertThat(animalRepository.readAnimalID(1).getName(),equalTo("Zoro the swordsman"));
+        assertThat(animalRepository.readAnimalID(1).getSpecies(),equalTo("123"));
+        assertThat(animalRepository.readAnimalID(1).getBreed(),equalTo("Rubber"));
+        assertThat(animalRepository.readAnimalID(1).getDescription(),equalTo("Captain"));
     }
 
     @Test
@@ -406,7 +406,8 @@ public class MenuServiceTest {
         MenuService menuService = new MenuService(scanner, animalRepository);
         ArrayList<Animal> AnimalList = new ArrayList<Animal>();
         // Act
-        menuService.editAnimal();
+        int number = menuService.editAnimalNumber();
+        menuService.editAnimalInputs(number);
         // Assert
         assertThat(outputStream.toString(),containsString("There are no animals! Create an animal first!"));
     }

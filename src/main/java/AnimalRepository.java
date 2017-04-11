@@ -44,6 +44,8 @@ public class AnimalRepository {
         preparedStatement.setString(3,animal.getBreed());
         preparedStatement.setString(4,animal.getDescription());
 
+        preparedStatement.executeQuery();
+
         // success?
         if (countAnimals()>before){
             System.out.println("An animal has successfully been added to the database!");
@@ -92,12 +94,21 @@ public class AnimalRepository {
             animal.setDescription(animalInDatabase.getDescription());
         }
         // Updating the values
-        stmt.execute("UPDATE animaltable SET " +
-                "name = '" + animal.getName() + "'," +
-                "species = '" + animal.getSpecies() + "'," +
-                "breed = '" + animal.getBreed() + "'," +
-                "description = '" + animal.getDescription() + "'" +
-                        "WHERE id = " + id);
+        PreparedStatement preparedStatement = conn.prepareStatement("UPDATE animaltable SET " +
+                "name = ?," +
+                "species = ?," +
+                "breed = ?," +
+                "description = ?" +
+                "WHERE id = ?");
+
+        preparedStatement.setString(1, animal.getName());
+        preparedStatement.setString(2, animal.getSpecies());
+        preparedStatement.setString(3, animal.getBreed());
+        preparedStatement.setString(4, animal.getDescription());
+        preparedStatement.setInt(5,id);
+
+        preparedStatement.execute();
+        System.out.println("Animal has been successfully updated!");
     }
 
 
