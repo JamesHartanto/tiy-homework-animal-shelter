@@ -43,7 +43,8 @@ public class Main {
                 // Sending data to database
                 animalRepository.editAnimalID(animalNumberToEdit,animalToEdit);
             } else if (selection==5){
-                menuService.deleteAnimal();
+                // Using menuService to see what animal to delete and trying it in the database
+                animalRepository.deleteAnimal(menuService.deleteAnimal());
             } else if (selection==6){
                 if (menuService.exitAnimal()){
                     break;

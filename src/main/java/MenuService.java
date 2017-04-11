@@ -121,7 +121,6 @@ public class MenuService {
 
     // Editing an animal #4
     public int editAnimalNumber() throws SQLException {
-//    public void editAnimal(ArrayList<Animal> AnimalsList) throws SQLException {
         System.out.println("--Edit Animal--");
         // variable to hold integer
         int userInt = 0;
@@ -187,16 +186,16 @@ public class MenuService {
 
 
     // Deleting an animal
-    public void deleteAnimal() throws SQLException {
+    public int deleteAnimal() throws SQLException {
 //    public void deleteAnimal(ArrayList<Animal> AnimalsList) throws SQLException {
         System.out.println("--Delete an Animal--");
+        // Creating variable to store user input
+        int input = 0;
+        // Checking if there are any animals
         if (animalRepository.countAnimals() == 0){
             System.out.println("There are no animals in the shelter to delete!");
         } else {
             System.out.println("What is the numeric ID of the animal you want to delete?");
-            // Creating variable to store user input
-            int input = 0;
-
             // Checks if user input is an integer
             if (scanner.hasNextInt()){
                 input = scanner.nextInt();
@@ -210,8 +209,7 @@ public class MenuService {
                     // Confirmation of deletion
                     System.out.println("Are you sure you want to delete " + animalRepository.readAnimalID(input) + "? (Y/N)");
                     if (deleteQuitConfirmation()){
-                        animalRepository.deleteAnimal(input);
-                        System.out.println("An animal has been deleted!");
+                        return input;
                     } else {
                         System.out.println("The animal is safe!");
                     }
@@ -223,6 +221,8 @@ public class MenuService {
                 deleteAnimal();
             }
         }
+        // did not delete, give database a non-existent id
+        return 0;
     }
 
 
