@@ -195,7 +195,7 @@ public class MenuServiceTest {
 
     @Test
     /**
-     * Given a list of animals
+     * Given two animals
      * When the list method is called
      * Then each animal is indexed
      */
@@ -205,11 +205,6 @@ public class MenuServiceTest {
         String jdbcUrl = "jdbc:h2:mem:animaltable";
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
         MenuService menuService = new MenuService(scanner, animalRepository);
-        ArrayList<Animal> animalList = new ArrayList<>();
-        Animal animal1 = new Animal("Bob", "Dinosaur", "T-rex", "Short Arms");
-        Animal animal2 = new Animal("Bill", "Monkey", "Unknown", "Hates Bananas");
-        animalList.add(animal1);
-        animalList.add(animal2);
         // Act
         animalRepository.listAnimals();
         // Assert
@@ -229,12 +224,11 @@ public class MenuServiceTest {
         String jdbcUrl = "jdbc:h2:mem:animaltable";
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
         MenuService menuService = new MenuService(scanner, animalRepository);
-        ArrayList<Animal> animalList = new ArrayList<>();
         // Act
-        Animal newAnimal = menuService.createAnAnimal();
-        animalList.add(newAnimal);
+        animalRepository.saveAnimal(menuService.createAnAnimal());
+
         // Assert
-        assertThat(animalList.size(),equalTo(1));
+        assertThat(animalRepository.countAnimals(),equalTo(3));
     }
 
     @Test
@@ -288,6 +282,27 @@ public class MenuServiceTest {
 
     @Test
     /**
+     * Given the main menu and the user inputs 3 to view animals
+     * When there are no animals
+     * Then no animals are listed
+     */
+    public void userInputs3AndNoAnimalsThenNoAnimalsListed() throws SQLException {
+        // Arrange
+        Scanner scanner = new Scanner("3");
+        String jdbcUrl = "jdbc:h2:mem:animaltable";
+        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
+        MenuService menuService = new MenuService(scanner, animalRepository);
+        animalRepository.deleteAnimal(2);
+        animalRepository.deleteAnimal(1);
+        // Act
+        animalRepository.readAnimalID(menuService.viewAnimal());
+        // Assert
+        assertThat(outputStream.toString(),containsString("--View an Animal--\n" +
+                "There are no animals to view!\n"));
+    }
+
+    @Test
+    /**
      * Given a main menu with 2 animals
      * When bad inputs are given for view animal
      * Then error messages are prompted until valid inputs are inserted
@@ -334,7 +349,7 @@ public class MenuServiceTest {
     @Test
     /**
      * Given a main menu with two animals
-     * When bad inputs are given
+     * When edit animal method is invoked and bad inputs are given
      * Then error messages are shown
      */
     public void BadInputsGivenThenErrorMessagesShown() throws SQLException {

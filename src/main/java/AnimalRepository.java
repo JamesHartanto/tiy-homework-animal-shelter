@@ -128,20 +128,4 @@ public class AnimalRepository {
         }
         return x;
     }
-
-
-    public ArrayList<Animal> filterBy(String tableColumn, String value) throws SQLException {
-        ArrayList<Animal> animalArrayList = new ArrayList<>();
-        Statement stmt = conn.createStatement();
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM animaltable WHERE '" + tableColumn + "' = '" + value + "'");
-
-        while (resultSet.next()){
-            Animal animal = new Animal(resultSet.getString("name"),
-                    resultSet.getString("species"),
-                    resultSet.getString("breed"),
-                    resultSet.getString("description"));
-            animalArrayList.add(animal);
-        }
-        return animalArrayList;
-    }
 }

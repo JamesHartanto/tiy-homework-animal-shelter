@@ -1,5 +1,6 @@
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -26,5 +27,6 @@ public class AnimalTest {
         assertThat(animal.getSpecies(),equalTo("Dinosaur?"));
         assertThat(animal.getBreed(),equalTo("Unknown"));
         assertThat(animal.getDescription(),equalTo("Short and chubby"));
+        assertThat(animal.toString(),containsString("Animal{"));
     }
 }
