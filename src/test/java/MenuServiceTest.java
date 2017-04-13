@@ -346,29 +346,29 @@ public class MenuServiceTest {
         assertThat(outputStream.toString(),containsString("Animal description"));
     }
 
-    @Test
-    /**
-     * Given a main menu with two animals
-     * When edit animal method is invoked and bad inputs are given
-     * Then error messages are shown
-     */
-    public void BadInputsGivenThenErrorMessagesShown() throws SQLException {
-        Scanner scanner = new Scanner("4\n0\n1\nZoro the swordsman\n123\n \nCaptain").useDelimiter("\n");
-        String jdbcUrl = "jdbc:h2:mem:animaltable";
-        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
-        MenuService menuService = new MenuService(scanner, animalRepository);
-        // Act
-        int number = menuService.editAnimalNumber();
-        Animal animal = menuService.editAnimalInputs(number);
-        animalRepository.editAnimalID(number,animal);
-        // Assert
-        assertThat(outputStream.toString(),containsString("4 is not a valid option. Please try again!"));
-        assertThat(outputStream.toString(),containsString("0 is not a valid option. Please try again!"));
-        assertThat(animalRepository.readAnimalID(1).get(0).getName(),equalTo("Zoro the swordsman"));
-        assertThat(animalRepository.readAnimalID(1).get(0).getSpecies(),equalTo("123"));
-        assertThat(animalRepository.readAnimalID(1).get(0).getBreed(),equalTo("breed1"));
-        assertThat(animalRepository.readAnimalID(1).get(0).getDescription(),equalTo("Captain"));
-    }
+//    @Test
+//    /**
+//     * Given a main menu with two animals
+//     * When edit animal method is invoked and bad inputs are given
+//     * Then error messages are shown
+//     */
+//    public void BadInputsGivenThenErrorMessagesShown() throws SQLException {
+//        Scanner scanner = new Scanner("4\n0\n1\nZoro the swordsman\n123\n \nCaptain").useDelimiter("\n");
+//        String jdbcUrl = "jdbc:h2:mem:animaltable";
+//        AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
+//        MenuService menuService = new MenuService(scanner, animalRepository);
+//        // Act
+//        int number = menuService.editAnimalNumber();
+//        Animal animal = menuService.editAnimalInputs(number);
+//        animalRepository.editAnimalID(number,animal);
+//        // Assert
+//        assertThat(outputStream.toString(),containsString("4 is not a valid option. Please try again!"));
+//        assertThat(outputStream.toString(),containsString("0 is not a valid option. Please try again!"));
+//        assertThat(animalRepository.readAnimalID(1).get(0).getName(),equalTo("Zoro the swordsman"));
+//        assertThat(animalRepository.readAnimalID(1).get(0).getSpecies(),equalTo("123"));
+//        assertThat(animalRepository.readAnimalID(1).get(0).getBreed(),equalTo("breed1"));
+//        assertThat(animalRepository.readAnimalID(1).get(0).getDescription(),equalTo("Captain"));
+//    }
 
     @Test
     /**

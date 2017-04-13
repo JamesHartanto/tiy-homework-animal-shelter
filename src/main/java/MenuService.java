@@ -41,7 +41,15 @@ public class MenuService {
         }
     }
 
-    // Listing animals #1 - animalRepository's job
+    // Listing animals #1 (ADDED 1 TO THE ID FOR PRINT)
+    public void listAnimal(ArrayList<Animal> animalList){
+        System.out.println("--List of Animals--");
+        for (int x = 0; x < animalList.size(); x = x + 1){
+            System.out.printf("ID: %-5s Name: %-20s Species: %-20s Breed: %-20s Description: %-50s\n",
+                    animalList.get(x).getId()+1, animalList.get(x).getName(),animalList.get(x).getSpecies(),
+                    animalList.get(x).getBreed(), animalList.get(x).getDescription());
+        }
+    }
 
 
     // Creating an animal #2
@@ -123,48 +131,44 @@ public class MenuService {
     }
 
     public Animal editAnimalInputs(int userInt) throws SQLException {
-        if (userInt != 0) {
-            // EDITING THE ANIMAL
-            ArrayList<Animal> animalToEdit = animalRepository.readAnimalID(userInt);
-            System.out.println("Please answer the following questions. Press enter to keep the current values.");
+        // EDITING THE ANIMAL
+        Animal animalToEdit = animalRepository.readAnimalID(userInt);
+        System.out.println("Please answer the following questions. Press enter to keep the current values.");
 
-            // name
-            System.out.print("Animal name [" + animalToEdit.get(0).getName() + "]: ");
-            String name = scanner.next();
-            // only changes value if there is a non-empty entry
-            if (!name.isEmpty()) {
-                animalToEdit.get(0).setName(name);
-            }
-            System.out.println("Animal name is now set to: " + animalToEdit.get(0).getName());
-
-            // species
-            System.out.print("Animal species [" + animalToEdit.get(0).getSpecies() + "]: ");
-            String species = scanner.next().trim();
-            if (!species.isEmpty()) {
-                animalToEdit.get(0).setSpecies(species);
-            }
-            System.out.println("Animal species is now set to: " + animalToEdit.get(0).getSpecies());
-
-            // breed - no trim because it can be edited to nothing
-            System.out.print("Animal breed (optional) [" + animalToEdit.get(0).getBreed() + "]: ");
-            String breed = scanner.next().trim();
-            if (!breed.isEmpty()) {
-                animalToEdit.get(0).setBreed(breed);
-            }
-            System.out.println("Animal breed is now set to: " + animalToEdit.get(0).getBreed());
-
-            // description
-            System.out.print("Animal description [" + animalToEdit.get(0).getDescription() + "]: ");
-            String description = scanner.next().trim();
-            if (!description.isEmpty()) {
-                animalToEdit.get(0).setDescription(description);
-            }
-            System.out.println("Animal description is: " + animalToEdit.get(0).getDescription());
-
-            return animalToEdit.get(0);
+        // name
+        System.out.print("Animal name [" + animalToEdit.getName() + "]: ");
+        String name = scanner.next();
+        // only changes value if there is a non-empty entry
+        if (!name.isEmpty()) {
+            animalToEdit.setName(name);
         }
-        Animal badAnimal = new Animal(" "," "," "," ");
-        return badAnimal;
+        System.out.println("Animal name is now set to: " + animalToEdit.getName());
+
+        // species
+        System.out.print("Animal species [" + animalToEdit.getSpecies() + "]: ");
+        String species = scanner.next().trim();
+        if (!species.isEmpty()) {
+            animalToEdit.setSpecies(species);
+        }
+        System.out.println("Animal species is now set to: " + animalToEdit.getSpecies());
+
+        // breed - no trim because it can be edited to nothing
+        System.out.print("Animal breed (optional) [" + animalToEdit.getBreed() + "]: ");
+        String breed = scanner.next().trim();
+        if (!breed.isEmpty()) {
+            animalToEdit.setBreed(breed);
+        }
+        System.out.println("Animal breed is now set to: " + animalToEdit.getBreed());
+
+        // description
+        System.out.print("Animal description [" + animalToEdit.getDescription() + "]: ");
+        String description = scanner.next().trim();
+        if (!description.isEmpty()) {
+            animalToEdit.setDescription(description);
+        }
+        System.out.println("Animal description is: " + animalToEdit.getDescription());
+
+        return animalToEdit;
     }
 
 
@@ -186,7 +190,7 @@ public class MenuService {
                 return deleteAnimal();
             } else {
                 // Confirmation of deletion
-                System.out.println("Are you sure you want to delete " + animalRepository.readAnimalID(input).get(0) + "? (Y/N)");
+                System.out.println("Are you sure you want to delete " + animalRepository.readAnimalID(input) + "? (Y/N)");
                 if (deleteQuitConfirmation()){
                     return input;
                 } else {

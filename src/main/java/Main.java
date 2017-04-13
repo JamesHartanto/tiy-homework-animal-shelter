@@ -1,5 +1,4 @@
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -19,15 +18,30 @@ public class Main {
 
             // LIST ANIMALS
             if (selection==1){
-                // Getting the arraylist from repository
-                // Printing out all the animals
-                animalRepository.listAnimals();
+                // Checking database if there are any animals
+                if (animalRepository.countAnimals() > 0){
+                    // Getting the arraylist from repository and printing it out
+                    menuService.listAnimal(animalRepository.listAnimals());
+                } else {
+                    System.out.println("All the animals have a home! There is currently no animal living in the shelter!");
+                }
+
 
             // CREATE ANIMAL
             } else if (selection==2){
+                // Counting animal before creation
+                int before = animalRepository.countAnimals();
                 // Using menuService to get details of the new animal
                 // Adding the animal to the database
                 animalRepository.saveAnimal(menuService.createAnAnimal());
+                // Was the creation successful?
+                int after = animalRepository.countAnimals();
+                if (after > before){
+                    System.out.println("An animal has successfully been added to the database!");
+                } else {
+                    System.out.println("Nothing happened");
+                }
+
 
             // VIEW A PARTICULAR ANIMAL
             } else if (selection==3){

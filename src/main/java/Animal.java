@@ -3,10 +3,14 @@
  */
 public class Animal {
 
+    private int id;
     private String name;
     private String species;
     private String breed;
     private String description;
+
+    public Animal() {
+    }
 
     public Animal(String name, String species, String breed, String description){
         this.name = name;
@@ -15,7 +19,18 @@ public class Animal {
         this.description = description;
     }
 
+    public Animal(int id, String name, String species, String breed, String description) {
+        this.id = id;
+        this.name = name;
+        this.species = species;
+        this.breed = breed;
+        this.description = description;
+    }
+
     // SETTERS
+    // Id
+    public void setId(int id) {this.id = id; }
+
     // Name
     public void setName(String name) {
         this.name = name;
@@ -37,15 +52,13 @@ public class Animal {
     }
 
     // GETTERS
+    // Id
+    public int getId() {return id; }
     // Name
-    public String getName() {
-        return name;
-    }
+    public String getName() {return name; }
 
     // Species
-    public String getSpecies() {
-        return species;
-    }
+    public String getSpecies() {return species; }
 
     // Breed
     public String getBreed() {
