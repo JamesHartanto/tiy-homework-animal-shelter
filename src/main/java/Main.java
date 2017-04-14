@@ -45,9 +45,13 @@ public class Main {
 
             // VIEW A PARTICULAR ANIMAL
             } else if (selection==3){
-                // Using menuService to see what animal to see
-                // Getting animal data from database and printing it out
-                animalRepository.readAnimalID(menuService.viewAnimal());
+                if (animalRepository.countAnimals() == 0){
+                    System.out.println("There are no animals to view!");
+                } else {
+                    // Using menuService to see what animal to see
+                    // Getting animal data from database and printing it out
+                    animalRepository.readAnimalID(menuService.viewAnimal(animalRepository.listAnimals()));
+                }
 
             // EDITING AN ANIMAL
             } else if (selection==4){

@@ -20,6 +20,7 @@ public class AnimalRepository {
 
         while (resultSet.next()){
             Animal animal = new Animal(
+                    resultSet.getInt("id"),
                     resultSet.getString("name"),
                     resultSet.getString("species"),
                     resultSet.getString("breed"),
@@ -59,7 +60,7 @@ public class AnimalRepository {
         }
         return animal;
     }
-    
+
 
     // edit animal by ID #4
     public void editAnimalID(int id, Animal animal) throws SQLException {

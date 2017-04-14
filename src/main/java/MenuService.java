@@ -79,34 +79,22 @@ public class MenuService {
         return new Animal(name,species,breed,description);
     }
 
+
     // Viewing a particular animal #3
-    public int viewAnimal() throws SQLException {
+    public int viewAnimal(ArrayList<Animal> animalList) throws SQLException {
         System.out.println("--View an Animal--");
         // Creating variable to store user input
-        int input = 0;
-        if (animalRepository.countAnimals() == 0) {
-            System.out.println("There are no animals to view!");
-        } else {
-            System.out.println("What is the numeric ID of the animal you want to view?");
+        int input = waitForInt("What is the numeric ID of the animal you want to view?");
 
-            // Checks if user input is an integer
-            if (scanner.hasNextInt()) {
-                input = scanner.nextInt();
-
-                // Checks to see if integer is in the list
-                if (input > animalRepository.countAnimals() || input < 1) {
-                    System.out.println(input + " is not part of the list! Please try again!");
-                    viewAnimal();
-
-                } else {
-                    return input;
-                }
-
-            } else {
-                String badInput = scanner.next();
-                System.out.println("Error: Invalid input! " + badInput + " is not an integer!");
-                viewAnimal();
-            }
+        // Creates a list of integers that contains the id
+        ArrayList<Integer> numbers = new ArrayList<>();
+        for (int x = 0; x < animalList.size(); x = x + 1){
+            numbers.add(animalList.get(x).getId());
+        }
+        // Checks to see if integer is in the list
+        if (!numbers.contains(input)){
+            System.out.println(input + "is not part of the list! Please try again!");
+            return viewAnimal(animalList);
         }
         return input;
     }
