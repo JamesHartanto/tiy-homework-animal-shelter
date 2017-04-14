@@ -181,6 +181,7 @@ public class MenuService {
         // Confirmation of deletion
         System.out.println("Are you sure you want to delete animal id: " + input + "? (Y/N)");
         if (deleteQuitConfirmation()){
+            System.out.println("An animal has been deleted!");
             return input;
         } else {
             System.out.println("The animal is safe!");
