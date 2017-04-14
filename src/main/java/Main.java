@@ -75,8 +75,12 @@ public class Main {
                 if (animalRepository.countAnimals() == 0) {
                     System.out.println("There are no animals in the shelter to delete!\n");
                 } else{
-                    // Using menuService to see what animal to delete and trying it in the database
-                    animalRepository.deleteAnimal(menuService.deleteAnimal());
+                    // Using menuService to see what animal to delete, if returns 0 then nothing happens
+                    int animalToDelete = menuService.deleteAnimal(animalRepository.listAnimals());
+                    if (animalToDelete != 0) {
+                        animalRepository.deleteAnimal(animalToDelete);
+                        System.out.println("An animal has been deleted!");
+                    }
                 }
 
 

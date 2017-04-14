@@ -84,14 +84,9 @@ public class AnimalRepository {
 
     //delete animals #5
     public void deleteAnimal(int id) throws SQLException {
-        int before = countAnimals();
         PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM animaltable WHERE id = ?");
         preparedStatement.setInt(1, id);
         preparedStatement.execute();
-        int after = countAnimals();
-        if (before > after) {
-            System.out.println("An animal has been deleted!");
-        }
     }
 
     //counting animals in table
