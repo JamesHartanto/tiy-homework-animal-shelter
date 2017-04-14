@@ -60,9 +60,10 @@ public class Main {
                 if (animalRepository.countAnimals() == 0){
                     System.out.println("There are no animals! Create an animal first!\n");
                 }else{
-                    // Using menuService to see what animal to edit and storing as variables
-                    // Sending data to database
-                    animalRepository.editAnimalID(menuService.editAnimal(animalRepository.listAnimals()));
+                    // Using menuService to see what animal to edit, getting the animal from repository
+                    Animal animalToEdit = animalRepository.readAnimalID(menuService.editAnimalNumber(animalRepository.listAnimals()));
+                    // Editing the values of the animal before sending data to database
+                    animalRepository.editAnimalID(menuService.editAnimalValues(animalToEdit));
                     // just creating a new line
                     System.out.println();
                 }

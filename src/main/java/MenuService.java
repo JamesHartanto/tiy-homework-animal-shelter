@@ -100,7 +100,7 @@ public class MenuService {
     }
 
     // Editing an animal #4
-    public int editAnimal(ArrayList<Animal> animalList) throws SQLException {
+    public int editAnimalNumber(ArrayList<Animal> animalList) throws SQLException {
         System.out.println("--Edit Animal--");
 
         // Checks if user input is an integer
@@ -114,7 +114,7 @@ public class MenuService {
         // Checks to see if integer is in the list
         if (!numbers.contains(input)) {
             System.out.println(input + " is not part of the list! Please try again!");
-            return editAnimal(animalList);
+            return editAnimalNumber(animalList);
         }
         return input;
     }
@@ -184,6 +184,7 @@ public class MenuService {
             return input;
         } else {
             System.out.println("The animal is safe!");
+            return 0;
         }
     }
 
