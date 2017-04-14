@@ -22,8 +22,10 @@ public class Main {
                 if (animalRepository.countAnimals() > 0){
                     // Getting the arraylist from repository and printing it out
                     menuService.listAnimal(animalRepository.listAnimals());
+                    // Just creating a new line
+                    System.out.println();
                 } else {
-                    System.out.println("All the animals have a home! There is currently no animal living in the shelter!");
+                    System.out.println("All the animals have a home! There is currently no animal living in the shelter!\n");
                 }
 
 
@@ -37,9 +39,9 @@ public class Main {
                 // Was the creation successful?
                 int after = animalRepository.countAnimals();
                 if (after > before){
-                    System.out.println("An animal has successfully been added to the database!");
+                    System.out.println("An animal has successfully been added to the database!\n");
                 } else {
-                    System.out.println("Nothing happened");
+                    System.out.println("Nothing happened\n");
                 }
 
 
@@ -50,24 +52,31 @@ public class Main {
                 } else {
                     // Using menuService to see what animal to see
                     // Getting animal data from database and printing it out
-                    animalRepository.readAnimalID(menuService.viewAnimal(animalRepository.listAnimals()));
+                    System.out.println(animalRepository.readAnimalID(menuService.viewAnimal(animalRepository.listAnimals()))+"\n");
                 }
 
             // EDITING AN ANIMAL
             } else if (selection==4){
                 if (animalRepository.countAnimals() == 0){
-                    System.out.println("There are no animals! Create an animal first!");
+                    System.out.println("There are no animals! Create an animal first!\n");
                 }else{
-                // Using menuService to see what animal to edit and storing as variables
-                // Sending data to database
-                animalRepository.editAnimalID(menuService.editAnimal(animalRepository.listAnimals()));
+                    // Using menuService to see what animal to edit and storing as variables
+                    // Sending data to database
+                    animalRepository.editAnimalID(menuService.editAnimal(animalRepository.listAnimals()));
+                    // just creating a new line
+                    System.out.println();
                 }
 
 
             // DELETING AN ANIMAL
             } else if (selection==5){
-                // Using menuService to see what animal to delete and trying it in the database
-                animalRepository.deleteAnimal(menuService.deleteAnimal());
+                // Checking if there are any animals
+                if (animalRepository.countAnimals() == 0) {
+                    System.out.println("There are no animals in the shelter to delete!\n");
+                } else{
+                    // Using menuService to see what animal to delete and trying it in the database
+                    animalRepository.deleteAnimal(menuService.deleteAnimal());
+                }
 
 
             // QUIT/LEAVE THE SHELTER
