@@ -63,25 +63,22 @@ public class AnimalRepository {
 
 
     // edit animal by ID #4
-    public void editAnimalID(int id, Animal animal) throws SQLException {
-        if (id != 0) {
-            // Updating the values
-            PreparedStatement preparedStatement = conn.prepareStatement("UPDATE animaltable SET " +
-                    "name = ?," +
-                    "species = ?," +
-                    "breed = ?," +
-                    "description = ?" +
-                    "WHERE id = ?");
+    public void editAnimalID(Animal animal) throws SQLException {
+        // Updating the values
+        PreparedStatement preparedStatement = conn.prepareStatement("UPDATE animaltable SET " +
+                "name = ?," +
+                "species = ?," +
+                "breed = ?," +
+                "description = ?" +
+                "WHERE id = ?");
 
-            preparedStatement.setString(1, animal.getName());
-            preparedStatement.setString(2, animal.getSpecies());
-            preparedStatement.setString(3, animal.getBreed());
-            preparedStatement.setString(4, animal.getDescription());
-            preparedStatement.setInt(5, id);
+        preparedStatement.setString(1, animal.getName());
+        preparedStatement.setString(2, animal.getSpecies());
+        preparedStatement.setString(3, animal.getBreed());
+        preparedStatement.setString(4, animal.getDescription());
+        preparedStatement.setInt(5, animal.getId());
 
-            preparedStatement.execute();
-            System.out.println("Animal has been successfully updated!");
-        }
+        preparedStatement.execute();
     }
 
 

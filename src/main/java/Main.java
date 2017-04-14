@@ -59,10 +59,8 @@ public class Main {
                     System.out.println("There are no animals! Create an animal first!");
                 }else{
                 // Using menuService to see what animal to edit and storing as variables
-                int animalNumberToEdit = menuService.editAnimalNumber();
-                Animal animalToEdit = menuService.editAnimalInputs(animalNumberToEdit);
                 // Sending data to database
-                animalRepository.editAnimalID(animalNumberToEdit,animalToEdit);
+                animalRepository.editAnimalID(menuService.editAnimal(animalRepository.listAnimals()));
                 }
 
 
