@@ -55,14 +55,24 @@ public class Main {
 
             // EDITING AN ANIMAL
             } else if (selection==4){
+                if (animalRepository.countAnimals() == 0){
+                    System.out.println("There are no animals! Create an animal first!");
+                }else{
                 // Using menuService to see what animal to edit and storing as variables
                 int animalNumberToEdit = menuService.editAnimalNumber();
                 Animal animalToEdit = menuService.editAnimalInputs(animalNumberToEdit);
                 // Sending data to database
                 animalRepository.editAnimalID(animalNumberToEdit,animalToEdit);
+                }
+
+
+            // DELETING AN ANIMAL
             } else if (selection==5){
                 // Using menuService to see what animal to delete and trying it in the database
                 animalRepository.deleteAnimal(menuService.deleteAnimal());
+
+
+            // QUIT/LEAVE THE SHELTER
             } else if (selection==6){
                 if (menuService.exitAnimal()){
                     break;

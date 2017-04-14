@@ -86,13 +86,13 @@ public class MenuService {
         // Creating variable to store user input
         int input = waitForInt("What is the numeric ID of the animal you want to view?");
 
-        // Creates a list of integers that contains the id
+        // Creates a list of integers that contains the id (ID + 1 BECAUSE USER SEES IT THAT WAY)
         ArrayList<Integer> numbers = new ArrayList<>();
         for (int x = 0; x < animalList.size(); x = x + 1){
-            numbers.add(animalList.get(x).getId());
+            numbers.add(animalList.get(x).getId()+1);
         }
         // Checks to see if integer is in the list
-        if (!numbers.contains(input)){
+        if (!numbers.contains(input-1)){
             System.out.println(input + "is not part of the list! Please try again!");
             return viewAnimal(animalList);
         }
@@ -100,27 +100,25 @@ public class MenuService {
     }
 
     // Editing an animal #4
-    public int editAnimalNumber() throws SQLException {
+    public Animal editAnimal(ArrayList<Animal> animalList) throws SQLException {
         System.out.println("--Edit Animal--");
-        int input = 0;
-        // making sure there are animals in the list
-        if (animalRepository.countAnimals() == 0) {
-            System.out.println("There are no animals! Create an animal first!\n");
-            // edit animal if there are animals in the list
-        } else {
-            // Checks if user input is an integer
-            input = waitForInt("What is the numeric ID of the animal you want to edit?");
-            if (input < 1 || input > animalRepository.countAnimals()){
-                System.out.printf("%s is not a valid option. Please try again!\n", input);
-                return editAnimalNumber();
-            }
-        }
-        return input;
-    }
 
-    public Animal editAnimalInputs(int userInt) throws SQLException {
-        // EDITING THE ANIMAL
-        Animal animalToEdit = animalRepository.readAnimalID(userInt);
+        // Checks if user input is an integer
+        int input = waitForInt("What is the numeric ID of the animal you want to edit?");
+
+        // Creates a list of integers that contains the id (ID + 1 BECAUSE USER SEES IT THAT WAY)
+        ArrayList<Integer> numbers = new ArrayList<>();
+        for (int x = 0; x < animalList.size(); x = x + 1){
+            numbers.add(animalList.get(x).getId()+1);
+        }
+        // Checks to see if integer is in the list
+        if (!numbers.contains(input)){
+            System.out.println(input + "is not part of the list! Please try again!");
+            return editAnimal(animalList);
+        }
+
+        // EDITING THE ANIMAL (input - 1 because talking to database)
+        Animal animalToEdit = animalRepository.readAnimalID(input-1);
         System.out.println("Please answer the following questions. Press enter to keep the current values.");
 
         // name
