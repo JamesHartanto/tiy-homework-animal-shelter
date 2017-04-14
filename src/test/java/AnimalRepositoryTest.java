@@ -109,11 +109,11 @@ public class AnimalRepositoryTest {
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
 
         // Act
-        ArrayList<Animal> animal = animalRepository.readAnimalID(1);
+        Animal animal = animalRepository.readAnimalID(1);
 
         // Assert
-        assertThat(animal.get(0).getName(),containsString("name1"));
-        assertThat(animal.get(0).getDescription(),containsString("description1"));
+        assertThat(animal.getName(),containsString("name1"));
+        assertThat(animal.getDescription(),containsString("description1"));
     }
 
     @Test
@@ -127,12 +127,12 @@ public class AnimalRepositoryTest {
         AnimalRepository animalRepository = new AnimalRepository(jdbcUrl);
 
         // Act
-        Animal animal = new Animal("Yuen","Hsi","Got","Scared");
-        animalRepository.editAnimalID(1, animal);
-        ArrayList<Animal> animals = animalRepository.readAnimalID(1);
+        Animal animal = new Animal(1,"Yuen","Hsi","Got","Scared");
+        animalRepository.editAnimalID(animal);
+        Animal animals = animalRepository.readAnimalID(1);
 
         // Assert
-        assertThat(animals.get(0).getName(),equalTo("Yuen"));
+        assertThat(animals.getName(),equalTo("Yuen"));
     }
 
     @After
