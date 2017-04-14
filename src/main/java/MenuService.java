@@ -179,7 +179,7 @@ public class MenuService {
         }
 
         // Confirmation of deletion
-        System.out.println("Are you sure you want to delete " + input + "? (Y/N)");
+        System.out.println("Are you sure you want to delete animal id: " + input + "? (Y/N)");
         if (deleteQuitConfirmation()){
             return input;
         } else {
